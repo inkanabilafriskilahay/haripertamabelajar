@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<title>MISSKA — Buat Icon PWA</title>
+<style>
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4fb;padding:30px;color:#1e2a3a;}
+  h1{color:#0a1f44;margin-bottom:6px;}
+  p{color:#7a8aaa;margin-bottom:24px;font-size:.9rem;}
+  .grid{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:28px;}
+  .icon-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .icon-item span{font-size:.75rem;color:#7a8aaa;}
+  .btn{padding:12px 28px;background:#c9a84c;color:#0a1f44;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;margin-right:10px;margin-bottom:10px;}
+  .btn:hover{background:#b8922e;}
+  .btn-navy{background:#0a1f44;color:#fff;}
+  .btn-navy:hover{background:#1a3a6b;}
+  .status{margin-top:14px;padding:12px 16px;background:#e6f9ee;border-radius:8px;color:#1a7a3c;font-weight:600;font-size:.88rem;display:none;}
+  .instructions{background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 4px 18px rgba(10,31,68,.08);margin-top:24px;}
+  .instructions h3{color:#0a1f44;margin-bottom:12px;}
+  .instructions ol{padding-left:20px;color:#555;font-size:.88rem;line-height:1.8;}
+  code{background:#f0f4fb;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:.85rem;}
+</style>
+</head>
+<body>
+<h1>🎨 MISSKA — Generator Icon PWA</h1>
+<p>Buat semua icon yang dibutuhkan untuk PWA MISSKA. Klik "Generate & Download Semua" lalu pindahkan file ke folder <code>icons/</code>.</p>
+
+<div class="grid" id="iconGrid"></div>
+
+<button class="btn" onclick="generateAndDownload()">⬇️ Generate & Download Semua Icon</button>
+<button class="btn btn-navy" onclick="window.close()">✕ Tutup</button>
+
+<div class="status" id="status">✅ Semua icon berhasil dibuat! Pindahkan file ke folder <code>icons/</code> di direktori yang sama dengan misska.html</div>
+
+<div class="instructions">
+  <h3>📋 Cara Menggunakan</h3>
+  <ol>
+    <li>Klik tombol <strong>"Generate & Download Semua Icon"</strong></li>
+    <li>Browser akan mendownload 8 file PNG (icon-72.png sampai icon-512.png)</li>
+    <li>Pindahkan semua file tersebut ke folder <code>icons/</code> di direktori yang sama dengan <code>misska.html</code></li>
+    <li>Buka <code>misska.html</code> melalui web server (bukan file://)</li>
+    <li>Di Chrome, klik ikon install di address bar atau tunggu banner muncul</li>
+  </ol>
+  <br>
+  <strong>💡 Cara buka via web server lokal:</strong><br>
+  <ol>
+    <li>Install VS Code Extension: <strong>Live Server</strong></li>
+    <li>Klik kanan <code>misska.html</code> → <strong>Open with Live Server</strong></li>
+    <li>Aplikasi terbuka di <code>http://127.0.0.1:5500/misska.html</code></li>
+    <li>Di HP, buka browser Chrome → ketik IP komputer: <code>http://192.168.x.x:5500/misska.html</code></li>
+  </ol>
+</div>
+
+<script>
+const SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
+
+function drawMISSKAIcon(size) {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const r = size * 0.18;
+
+  // Rounded background — navy
+  ctx.fillStyle = '#0a1f44';
+  roundRect(ctx, 0, 0, size, size, r);
+  ctx.fill();
+
+  // Gold circle
+  ctx.fillStyle = '#c9a84c';
+  ctx.beginPath();
+  ctx.arc(size / 2, size * 0.40, size * 0.26, 0, Math.PI * 2);
+  ctx.fill();
+
+  // White book body
+  const bx = size * 0.30, by = size * 0.20, bw = size * 0.40, bh = size * 0.36;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(bx, by, bw, bh);
+
+  // Book spine
+  ctx.fillStyle = '#e8edf5';
+  ctx.fillRect(size / 2 - size * 0.015, by, size * 0.03, bh);
+
+  // Lines
+  ctx.fillStyle = '#c9a84c';
+  for (let i = 1; i <= 3; i++) {
+    const y = by + bh * (i / 4.5);
+    ctx.fillRect(bx + size * 0.05, y, bw * 0.36, size * 0.022);
+    ctx.fillRect(size / 2 + size * 0.03, y, bw * 0.36, size * 0.022);
+  }
+
+  // "M" letter
+  ctx.fillStyle = '#c9a84c';
+  ctx.font = `bold ${size * 0.12}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('M', size / 2, size * 0.78);
+
+  // Small dots
+  ctx.fillStyle = 'rgba(201,168,76,0.4)';
+  ctx.beginPath();
+  ctx.arc(size * 0.18, size * 0.82, size * 0.04, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(size * 0.82, size * 0.82, size * 0.04, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function generateAndDownload() {
+  const grid = document.getElementById('iconGrid');
+  grid.innerHTML = '';
+
+  SIZES.forEach((size, idx) => {
+    const canvas = drawMISSKAIcon(size);
+    const displaySize = Math.min(size, 96);
+    canvas.style.width = displaySize + 'px';
+    canvas.style.height = displaySize + 'px';
+    canvas.style.borderRadius = '12px';
+    canvas.style.border = '2px solid #dde3f0';
+
+    const item = document.createElement('div');
+    item.className = 'icon-item';
+    item.appendChild(canvas);
+    const lbl = document.createElement('span');
+    lbl.textContent = size + 'x' + size;
+    item.appendChild(lbl);
+    grid.appendChild(item);
+
+    // Download with small delay to avoid browser blocking
+    setTimeout(() => {
+      const a = document.createElement('a');
+      a.download = 'icon-' + size + '.png';
+      a.href = canvas.toDataURL('image/png');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }, idx * 200);
+  });
+
+  setTimeout(() => {
+    document.getElementById('status').style.display = 'block';
+  }, SIZES.length * 200 + 500);
+}
+
+// Preview on load
+window.onload = function() {
+  const grid = document.getElementById('iconGrid');
+  SIZES.forEach(size => {
+    const canvas = drawMISSKAIcon(size);
+    const displaySize = Math.min(size, 80);
+    canvas.style.width = displaySize + 'px';
+    canvas.style.height = displaySize + 'px';
+    canvas.style.borderRadius = '10px';
+    canvas.style.border = '2px solid #dde3f0';
+    const item = document.createElement('div');
+    item.className = 'icon-item';
+    item.appendChild(canvas);
+    const lbl = document.createElement('span');
+    lbl.textContent = size + 'x' + size;
+    item.appendChild(lbl);
+    grid.appendChild(item);
+  });
+};
+</script>
+</body>
+</html>

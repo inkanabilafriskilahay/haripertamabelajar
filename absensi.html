@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABSENSI JAM PELAJARAN BAHASA INDONESIA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #0a1f44;
+      --navy-light: #1a3a6b;
+      --gold: #c9a84c;
+      --gold-hover: #b8922e;
+      --white: #ffffff;
+      --bg: #f4f6fb;
+      --text: #2c2c2c;
+      --border: #dde3f0;
+      --shadow: 0 4px 16px rgba(10, 31, 68, 0.10);
+    }
+
+    body {
+      font-family: 'Arial', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 28px 20px 22px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(10,31,68,0.18);
+    }
+
+    header h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      color: var(--gold);
+      letter-spacing: 0.3px;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 900px;
+      margin: 32px auto;
+      padding: 0 16px 40px;
+    }
+
+    /* INFO CARD */
+    .info-card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      border-left: 5px solid var(--gold);
+    }
+
+    .info-card h2 {
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 0.78rem;
+      color: #7a8aaa;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    .info-item input,
+    .info-item select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .info-item input:focus,
+    .info-item select:focus {
+      border-color: var(--navy-light);
+    }
+
+    /* TABLE CARD */
+    .table-card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .table-card h2 {
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+    }
+
+    thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    thead th {
+      padding: 12px 14px;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    thead th:first-child {
+      border-radius: 8px 0 0 0;
+    }
+
+    thead th:last-child {
+      border-radius: 0 8px 0 0;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover {
+      background: #f0f4ff;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody td {
+      padding: 11px 14px;
+      text-align: center;
+      font-size: 0.93rem;
+    }
+
+    tbody td:nth-child(2) {
+      text-align: left;
+      font-weight: 500;
+    }
+
+    /* STATUS SELECT */
+    .status-select {
+      padding: 6px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 0.88rem;
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      min-width: 90px;
+    }
+
+    .status-select:focus {
+      border-color: var(--navy-light);
+    }
+
+    .status-select.hadir  { background: #e6f9ee; color: #1a7a3c; border-color: #a3d9b5; }
+    .status-select.izin   { background: #fff8e1; color: #b07d00; border-color: #f0d080; }
+    .status-select.sakit  { background: #fff0f0; color: #c0392b; border-color: #f5b8b8; }
+    .status-select.alfa   { background: #f5f0ff; color: #6c3fc5; border-color: #c9b8f0; }
+
+    /* BUTTONS */
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 11px 28px;
+      border: none;
+      border-radius: 9px;
+      font-size: 0.97rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-save {
+      background: var(--gold);
+      color: var(--navy);
+      box-shadow: 0 2px 8px rgba(201,168,76,0.25);
+    }
+
+    .btn-save:hover {
+      background: var(--gold-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(201,168,76,0.35);
+    }
+
+    .btn-reset {
+      background: var(--navy);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(10,31,68,0.15);
+    }
+
+    .btn-reset:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 0.93rem;
+      box-shadow: 0 4px 18px rgba(10,31,68,0.22);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+      border-left: 4px solid var(--gold);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      color: #9aa5be;
+      font-size: 0.82rem;
+      padding-bottom: 20px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.25rem; }
+      .info-card, .table-card { padding: 18px 14px; }
+      .btn { padding: 10px 18px; font-size: 0.9rem; }
+      .btn-row { justify-content: stretch; }
+      .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>📚 Absensi Harian Bahasa Indonesia</h1>
+    <p>Sistem Pencatatan Kehadiran Siswa</p>
+  </header>
+
+  <div class="container">
+
+    <!-- INFO KELAS -->
+    <div class="info-card">
+      <h2>Informasi Kelas</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Nama Kelas</label>
+          <input type="text" id="namaKelas" value="X IPA 2" placeholder="Contoh: X IPA 1" />
+        </div>
+        <div class="info-item">
+          <label>Nama Guru</label>
+          <input type="text" id="namaGuru" value="Ibu Inka Nabila Frisk, S.Pd., Gr" placeholder="Nama guru" />
+        </div>
+        <div class="info-item">
+          <label>Minggu Ke-</label>
+          <select id="mingguKe">
+            <option value="1">Minggu ke-1</option>
+            <option value="2" selected>Minggu ke-2</option>
+            <option value="3">Minggu ke-3</option>
+            <option value="4">Minggu ke-4</option>
+            <option value="5">Minggu ke-5</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABEL ABSENSI -->
+    <div class="table-card">
+      <h2>Daftar Absensi Siswa</h2>
+      <table id="tabelAbsensi">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Nama Siswa</th>
+            <th>Pertemuan 1</th>
+            <th>Pertemuan 2</th>
+          </tr>
+        </thead>
+        <tbody id="bodyAbsensi">
+          <!-- Diisi oleh JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TOMBOL AKSI -->
+    <div class="btn-row">
+      <button class="btn btn-reset" onclick="resetData()">🔄 Reset Data</button>
+      <button class="btn btn-save" onclick="simpanAbsensi()">💾 Simpan Absensi</button>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 &mdash; Absensi Harian Bahasa Indonesia
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const dummySiswa = [
+      "Andi Pratama",
+      "Bella Safitri",
+      "Cahyo Nugroho",
+      "Dinda Ayu Lestari",
+      "Eko Wahyudi",
+      "Farah Nabilah",
+      "Gilang Ramadhan",
+      "Hana Permatasari",
+      "Irfan Maulana",
+      "Jasmine Putri"
+    ];
+
+    const statusOptions = ["Hadir", "Izin", "Sakit", "Alfa"];
+    const STORAGE_KEY = "absensi_bahasa_indonesia";
+
+    // Load data dari localStorage atau buat default
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+      return dummySiswa.map(nama => ({
+        nama,
+        p1: "Hadir",
+        p2: "Hadir"
+      }));
+    }
+
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function renderTabel() {
+      const data = loadData();
+      const tbody = document.getElementById("bodyAbsensi");
+      tbody.innerHTML = "";
+
+      data.forEach((siswa, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${siswa.nama}</td>
+          <td>${buatSelect(idx, "p1", siswa.p1)}</td>
+          <td>${buatSelect(idx, "p2", siswa.p2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Terapkan warna awal
+      document.querySelectorAll(".status-select").forEach(sel => {
+        updateSelectColor(sel);
+        sel.addEventListener("change", function() {
+          updateSelectColor(this);
+        });
+      });
+    }
+
+    function buatSelect(idx, pertemuan, nilai) {
+      const opts = statusOptions.map(s =>
+        `<option value="${s}" ${s === nilai ? "selected" : ""}>${s}</option>`
+      ).join("");
+      return `<select class="status-select" data-idx="${idx}" data-pertemuan="${pertemuan}">${opts}</select>`;
+    }
+
+    function updateSelectColor(sel) {
+      sel.className = "status-select " + sel.value.toLowerCase();
+    }
+
+    function simpanAbsensi() {
+      const data = loadData();
+      document.querySelectorAll(".status-select").forEach(sel => {
+        const idx = parseInt(sel.dataset.idx);
+        const pertemuan = sel.dataset.pertemuan;
+        data[idx][pertemuan] = sel.value;
+      });
+      saveData(data);
+      tampilToast("✅ Absensi berhasil disimpan!");
+    }
+
+    function resetData() {
+      if (!confirm("Reset semua data absensi ke default (Hadir)?")) return;
+      const data = dummySiswa.map(nama => ({ nama, p1: "Hadir", p2: "Hadir" }));
+      saveData(data);
+      renderTabel();
+      tampilToast("🔄 Data absensi telah direset.");
+    }
+
+    function tampilToast(pesan) {
+      const toast = document.getElementById("toast");
+      toast.textContent = pesan;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+
+    // Init
+    renderTabel();
+  </script>
+
+</body>
+</html>

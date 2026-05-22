@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<title>Generate MISSKA Icons</title>
+<style>
+  body{font-family:Arial,sans-serif;padding:24px;background:#f0f4fb;}
+  h2{color:#0a1f44;margin-bottom:16px;}
+  .grid{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+  canvas{border:1px solid #dde3f0;border-radius:8px;}
+  .info{font-size:.85rem;color:#7a8aaa;margin-top:4px;text-align:center;}
+  button{padding:12px 28px;background:#c9a84c;color:#0a1f44;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;margin-right:10px;}
+  button:hover{background:#b8922e;}
+  .status{margin-top:16px;font-size:.9rem;color:#27ae60;font-weight:600;}
+</style>
+</head>
+<body>
+<h2>🎨 Generate Icon MISSKA PWA</h2>
+<p style="color:#7a8aaa;margin-bottom:20px;">Klik tombol di bawah untuk membuat semua icon yang dibutuhkan PWA, lalu download satu per satu.</p>
+<div class="grid" id="canvasGrid"></div>
+<button onclick="generateAll()">🖼️ Generate Semua Icon</button>
+<button onclick="downloadAll()">⬇️ Download Semua</button>
+<div class="status" id="status"></div>
+
+<script>
+const SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
+
+function drawIcon(canvas, size) {
+  const ctx = canvas.getContext('2d');
+  const r = size * 0.12; // border radius
+
+  // Background navy
+  ctx.fillStyle = '#0a1f44';
+  roundRect(ctx, 0, 0, size, size, r);
+  ctx.fill();
+
+  // Gold circle background
+  ctx.fillStyle = '#c9a84c';
+  ctx.beginPath();
+  ctx.arc(size/2, size*0.42, size*0.28, 0, Math.PI*2);
+  ctx.fill();
+
+  // Book emoji style — white pages
+  ctx.fillStyle = '#ffffff';
+  const bx = size*0.28, by = size*0.22, bw = size*0.44, bh = size*0.38;
+  ctx.fillRect(bx, by, bw, bh);
+
+  // Book spine
+  ctx.fillStyle = '#0a1f44';
+  ctx.fillRect(size/2 - size*0.02, by, size*0.04, bh);
+
+  // Lines on book
+  ctx.fillStyle = '#dde3f0';
+  for(let i=1; i<=3; i++){
+    ctx.fillRect(bx + size*0.06, by + bh*(i/5), bw*0.38, size*0.025);
+    ctx.fillRect(size/2 + size*0.04, by + bh*(i/5), bw*0.38, size*0.025);
+  }
+
+  // Text "MISSKA" at bottom
+  ctx.fillStyle = '#c9a84c';
+  ctx.font = `bold ${size*0.1}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.fillText('MISSKA', size/2, size*0.88);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
+
+function generateAll() {
+  const grid = document.getElementById('canvasGrid');
+  grid.innerHTML = '';
+  SIZES.forEach(size => {
+    const wrap = document.createElement('div');
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    canvas.id = 'icon-' + size;
+    const displaySize = Math.min(size, 128);
+    canvas.style.width = displaySize + 'px';
+    canvas.style.height = displaySize + 'px';
+    drawIcon(canvas, size);
+    const info = document.createElement('div');
+    info.className = 'info';
+    info.textContent = size + 'x' + size;
+    wrap.appendChild(canvas);
+    wrap.appendChild(info);
+    grid.appendChild(wrap);
+  });
+  document.getElementById('status').textContent = '✅ Semua icon berhasil dibuat! Klik "Download Semua" untuk menyimpan.';
+}
+
+function downloadAll() {
+  SIZES.forEach(size => {
+    const canvas = document.getElementById('icon-' + size);
+    if (!canvas) { alert('Generate icon dulu!'); return; }
+    const a = document.createElement('a');
+    a.download = 'icon-' + size + '.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  });
+}
+
+// Auto generate on load
+window.onload = generateAll;
+</script>
+</body>
+</html>
