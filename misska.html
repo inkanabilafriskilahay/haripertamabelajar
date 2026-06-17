@@ -39,6 +39,17 @@ body{font-family:'Tahoma',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);
 .btn-login:hover{background:var(--gold2);}
 .login-err{color:#c0392b;font-size:.85rem;margin-top:10px;display:none;}
 
+/* LOGIN — mode selector */
+.login-mode-sel{display:flex;gap:10px;margin-bottom:24px;}
+.mode-btn{flex:1;padding:13px 8px;border-radius:10px;border:2px solid var(--border);background:#f6f8fc;cursor:pointer;font-size:.82rem;font-weight:700;color:#7a8aaa;transition:all .18s;text-align:center;line-height:1.4;}
+.mode-btn .mode-ic{font-size:1.5rem;display:block;margin-bottom:4px;}
+.mode-btn.active{border-color:var(--navy);background:var(--navy);color:var(--white);}
+.mode-btn:hover:not(.active){border-color:var(--navy2);background:#edf1fa;color:var(--navy);}
+.login-panel{display:none;}.login-panel.active{display:block;}
+.login-hint-box{background:#f4f8ff;border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:18px;font-size:.76rem;color:#5a6a88;text-align:left;line-height:1.75;}
+.login-hint-box strong{color:var(--navy);}
+.login-box .sub{color:#7a8aaa;font-size:.82rem;margin-bottom:20px;}
+
 /* ===== LAYOUT ===== */
 #appPage{display:none;}
 .layout{display:flex;min-height:100vh;}
@@ -221,14 +232,117 @@ tbody td.tl{text-align:left;}
 
 <!-- LOGIN -->
 <div id="loginPage">
-  <div class="login-box">
+  <div class="login-box" id="loginBox">
     <div class="login-logo">📚</div>
     <h2>MISSKA</h2>
-    <p class="sub">Manajemen Input Siswa, Skor, Kehadiran &amp; Akademik</p>
-    <div class="lf-group"><label>Username</label><input type="text" id="loginUser" placeholder="Username" /></div>
-    <div class="lf-group"><label>Password</label><input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()" /></div>
-    <button class="btn-login" onclick="doLogin()">Masuk</button>
-    <div class="login-err" id="loginErr">Username atau password salah.</div>
+    <p class="sub" id="loginSub">Silakan pilih jenis pengguna</p>
+
+    <!-- Pilih mode -->
+    <div style="display:flex;gap:10px;margin-bottom:22px;">
+      <button id="btnModeGuru" onclick="setLoginMode('guru')"
+        style="flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;transition:all .18s;">
+        <span style="font-size:1.5rem;display:block;margin-bottom:3px;">🧑‍🏫</span>Guru / Admin
+      </button>
+      <button id="btnModeOrtu" onclick="setLoginMode('ortu')"
+        style="flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--border);background:#f6f8fc;color:#7a8aaa;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;transition:all .18s;">
+        <span style="font-size:1.5rem;display:block;margin-bottom:3px;">👨‍👩‍👧</span>Orangtua
+      </button>
+    </div>
+
+    <!-- PANEL GURU -->
+    <div id="panelGuru">
+      <div class="lf-group"><label>Username</label><input type="text" id="loginUser" placeholder="Contoh: guru1 / admin" autocomplete="username"/></div>
+      <div class="lf-group"><label>Password</label><input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <button class="btn-login" onclick="doLogin()">Masuk sebagai Guru</button>
+      <div class="login-err" id="loginErr">Username atau password salah.</div>
+    </div>
+
+    <!-- PANEL ORANGTUA -->
+    <div id="panelOrtu" style="display:none;">
+      <div style="background:#f4f8ff;border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:.76rem;color:#5a6a88;text-align:left;line-height:1.8;">
+        <strong style="color:var(--navy);">Cara login:</strong><br>
+        👤 Username: nama anak, huruf kecil, tanpa spasi<br>
+        🔑 Password: nama anak + angka <strong>1</strong><br>
+        Contoh <em>"Andi Pratama"</em> → <strong>andipratama</strong> / <strong>andipratama1</strong>
+      </div>
+      <div class="lf-group"><label>Username (Nama Anak)</label><input type="text" id="ortuUser" placeholder="Nama anak huruf kecil tanpa spasi" autocomplete="username"/></div>
+      <div class="lf-group"><label>Password</label><input type="password" id="ortuPass" placeholder="Nama anak + angka 1" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLoginOrtu()"/></div>
+      <button class="btn-login" onclick="doLoginOrtu()" style="background:var(--navy);color:#fff;">Masuk sebagai Orangtua</button>
+      <div class="login-err" id="ortuErr">Username atau password salah. Periksa nama siswa.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PORTAL ORANGTUA (halaman terpisah dalam satu file) -->
+<div id="ortuPage" style="display:none;">
+  <div style="background:var(--navy);color:#fff;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(10,31,68,.18);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.5rem;">📚</span>
+      <div>
+        <div style="font-size:.95rem;font-weight:800;line-height:1.2;">Portal Orangtua</div>
+        <div style="font-size:.68rem;color:var(--gold);" id="ortuSchool">MISSKA</div>
+      </div>
+    </div>
+    <button onclick="doLogoutOrtu()" style="padding:7px 16px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:7px;cursor:pointer;font-size:.82rem;">🚪 Keluar</button>
+  </div>
+  <div style="max-width:860px;margin:0 auto;padding:22px 16px 56px;">
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:14px;padding:20px 22px;margin-bottom:20px;color:#fff;">
+      <div style="font-size:1.05rem;font-weight:800;margin-bottom:3px;">Halo, <span id="ortuSapa">Orangtua</span> 👋</div>
+      <div style="font-size:.83rem;color:rgba(255,255,255,.75);">Informasi akademik: <strong id="ortuNamaSiswa">—</strong></div>
+      <span id="ortuKelasTag" style="display:inline-block;background:var(--gold);color:var(--navy);border-radius:99px;padding:3px 13px;font-size:.76rem;font-weight:700;margin-top:10px;">—</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:20px;">
+      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--navy);text-align:center;"><div style="font-size:1.4rem;">📋</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-tugas">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Tugas Masuk</div></div>
+      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #27ae60;text-align:center;"><div style="font-size:1.4rem;">✅</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-hadir">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Total Hadir</div></div>
+      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #f39c12;text-align:center;"><div style="font-size:1.4rem;">📋</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-izin">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Izin / Sakit</div></div>
+      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #e74c3c;text-align:center;"><div style="font-size:1.4rem;">❌</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-alfa">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Alfa</div></div>
+    </div>
+
+    <!-- Tab bar -->
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;" id="ortuTabBar">
+      <button class="otab active" onclick="ortuTab('tugas',this)">📋 Setoran Tugas</button>
+      <button class="otab" onclick="ortuTab('absensi',this)">✅ Absensi</button>
+      <button class="otab" onclick="ortuTab('nilai',this)">📊 Nilai</button>
+    </div>
+
+    <div id="otab-tugas" class="otab-panel" style="display:block;">
+      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
+        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">📋 Status Setoran Tugas</div>
+        <div style="overflow-x:auto;"><table style="min-width:280px;">
+          <thead><tr><th>Tugas ke-</th><th>Nilai</th><th>Status</th></tr></thead>
+          <tbody id="otTugasBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div id="otab-absensi" class="otab-panel" style="display:none;">
+      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
+        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">✅ Rekap Kehadiran</div>
+        <div style="overflow-x:auto;"><table style="min-width:280px;">
+          <thead><tr><th>Minggu</th><th>Pertemuan 1</th><th>Pertemuan 2</th></tr></thead>
+          <tbody id="otAbsensiBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div id="otab-nilai" class="otab-panel" style="display:none;">
+      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
+        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">📊 Ringkasan Nilai</div>
+        <div style="overflow-x:auto;"><table style="min-width:280px;">
+          <thead><tr><th>Komponen</th><th>Nilai</th><th>Bobot</th></tr></thead>
+          <tbody id="otNilaiBody"></tbody>
+        </table></div>
+        <div id="otNilaiAkhir" style="display:none;margin-top:16px;background:var(--bg);border-radius:10px;padding:16px;text-align:center;">
+          <div style="font-size:.75rem;color:#7a8aaa;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-bottom:6px;">Nilai Akhir</div>
+          <div style="font-size:2.2rem;font-weight:800;color:var(--navy);" id="otNilaiAkhirVal">—</div>
+          <div id="otNilaiAkhirBadge" style="margin-top:6px;"></div>
+          <div style="font-size:.7rem;color:#aab;margin-top:8px;">Rumus: Tugas×40% + UH×30% + Ujian×30%</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -668,6 +782,143 @@ function doLogout(){
   document.getElementById('loginPage').style.display='flex';
   document.getElementById('loginUser').value='';
   document.getElementById('loginPass').value='';
+  setLoginMode('guru');
+}
+
+// ============================================================
+// LOGIN MODE SELECTOR
+// ============================================================
+function setLoginMode(mode){
+  const isGuru=mode==='guru';
+  document.getElementById('panelGuru').style.display=isGuru?'block':'none';
+  document.getElementById('panelOrtu').style.display=isGuru?'none':'block';
+  document.getElementById('loginErr').style.display='none';
+  document.getElementById('ortuErr').style.display='none';
+  const on='flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
+  const off='flex:1;padding:14px 6px;border-radius:11px;border:2px solid #dde3f0;background:#f6f8fc;color:#7a8aaa;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
+  const on2='flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy2);background:var(--navy2);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
+  document.getElementById('btnModeGuru').style.cssText=isGuru?on:off;
+  document.getElementById('btnModeOrtu').style.cssText=isGuru?off:on2;
+  document.getElementById('loginSub').textContent=isGuru?'Masuk menggunakan akun guru / admin':'Masuk untuk melihat tugas & nilai anak';
+}
+
+// ============================================================
+// PORTAL ORANGTUA — AUTH
+// ============================================================
+let _ortuSiswa=null;
+
+function normOrtu(nama){return nama.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');}
+
+function doLoginOrtu(){
+  const un=document.getElementById('ortuUser').value.trim().toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');
+  const pw=document.getElementById('ortuPass').value;
+  const errEl=document.getElementById('ortuErr');
+  errEl.style.display='none';
+  const db=getDB();
+  if(!db||!db.siswa){errEl.textContent='Data belum tersedia. Minta guru membuka MISSKA dulu.';errEl.style.display='block';return;}
+  const found=db.siswa.find(s=>{const u=normOrtu(s.nama);return u===un&&pw===(u+'1');});
+  if(!found){errEl.textContent='Username atau password salah. Periksa nama siswa.';errEl.style.display='block';return;}
+  _ortuSiswa=found;
+  sessionStorage.setItem('ortu_siswa',JSON.stringify(found));
+  showOrtuApp();
+}
+
+function doLogoutOrtu(){
+  sessionStorage.removeItem('ortu_siswa');
+  _ortuSiswa=null;
+  document.getElementById('ortuPage').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('ortuUser').value='';
+  document.getElementById('ortuPass').value='';
+  setLoginMode('ortu');
+}
+
+// ============================================================
+// PORTAL ORANGTUA — TAMPILAN
+// ============================================================
+function showOrtuApp(){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('ortuPage').style.display='block';
+  const db=getDB();
+  const kelas=db.kelas.find(k=>k.id===_ortuSiswa.kelasId);
+  document.getElementById('ortuSchool').textContent=(db.settings&&db.settings.sekolah)||'MISSKA';
+  document.getElementById('ortuSapa').textContent='Orangtua '+_ortuSiswa.nama.split(' ')[0];
+  document.getElementById('ortuNamaSiswa').textContent=_ortuSiswa.nama;
+  document.getElementById('ortuKelasTag').textContent='📚 '+(kelas?kelas.nama:'—');
+  ortuRenderStats(db,kelas);
+  ortuRenderTugas();
+  ortuRenderAbsensi(db,kelas);
+  ortuRenderNilai();
+}
+
+function ortuRenderStats(db,kelas){
+  let hadir=0,izin=0,alfa=0;
+  if(kelas){
+    Object.keys(db.absensi||{}).filter(k=>k.startsWith(kelas.id+'_')).forEach(key=>{
+      const e=(db.absensi[key]||{})[_ortuSiswa.id];
+      if(e){['p1','p2'].forEach(pt=>{const v=e[pt]||'Hadir';if(v==='Hadir')hadir++;else if(v==='Izin'||v==='Sakit')izin++;else alfa++;});}
+    });
+  }
+  const d=getNilaiSiswa(_ortuSiswa.id);
+  document.getElementById('os-tugas').textContent=d.tugas.filter(v=>v!==''&&v!==undefined&&v!==null).length;
+  document.getElementById('os-hadir').textContent=hadir;
+  document.getElementById('os-izin').textContent=izin;
+  document.getElementById('os-alfa').textContent=alfa;
+}
+
+function ortuTab(tab,btn){
+  document.querySelectorAll('.otab-panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.otab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('otab-'+tab).style.display='block';
+  btn.classList.add('active');
+}
+
+function ortuRenderTugas(){
+  const d=getNilaiSiswa(_ortuSiswa.id);
+  document.getElementById('otTugasBody').innerHTML=Array.from({length:8},(_,i)=>{
+    const val=d.tugas[i];const ada=val!==undefined&&val!==''&&val!==null;
+    return`<tr><td style="text-align:left">Tugas ${i+1}</td>`
+      +`<td>${ada?'<strong>'+val+'</strong>':'<span style="color:#bbb">—</span>'}</td>`
+      +`<td>${ada
+        ?'<span style="background:#e6f9ee;color:#1a7a3c;border:1px solid #a3d9b5;padding:2px 9px;border-radius:99px;font-size:.74rem;font-weight:700">✅ Masuk</span>'
+        :'<span style="background:#fff0f0;color:#c0392b;border:1px solid #f5b8b8;padding:2px 9px;border-radius:99px;font-size:.74rem;font-weight:700">⏳ Belum</span>'
+      }</td></tr>`;
+  }).join('');
+}
+
+function ortuRenderAbsensi(db,kelas){
+  const tbody=document.getElementById('otAbsensiBody');
+  if(!kelas){tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:20px;color:#aab">Kelas tidak ditemukan.</td></tr>';return;}
+  const keys=Object.keys(db.absensi||{}).filter(k=>k.startsWith(kelas.id+'_'));
+  if(!keys.length){tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:20px;color:#aab">Belum ada data absensi.</td></tr>';return;}
+  keys.sort((a,b)=>parseInt(a.match(/_m(\d+)/)?.[1]||0)-parseInt(b.match(/_m(\d+)/)?.[1]||0));
+  const col={'Hadir':'color:#27ae60;font-weight:700','Izin':'color:#f39c12;font-weight:700','Sakit':'color:#e74c3c;font-weight:700','Alfa':'color:#8e44ad;font-weight:700'};
+  tbody.innerHTML=keys.map(key=>{
+    const m=key.match(/_m(\d+)/)?.[1]||'?';
+    const e=(db.absensi[key]||{})[_ortuSiswa.id];
+    const p1=e?(e.p1||'Hadir'):'—',p2=e?(e.p2||'Hadir'):'—';
+    return`<tr><td>Minggu ke-${m}</td><td><span style="${col[p1]||''}">${p1}</span></td><td><span style="${col[p2]||''}">${p2}</span></td></tr>`;
+  }).join('');
+}
+
+function ortuRenderNilai(){
+  const d=getNilaiSiswa(_ortuSiswa.id);
+  const at=avgArr(d.tugas),au=avgArr(d.uh),us=parseFloat(d.ujian),na=hitungNA(_ortuSiswa.id);
+  const fmt=v=>(v!==null&&!isNaN(v))?v:'—';
+  document.getElementById('otNilaiBody').innerHTML=[
+    ['Rata-rata Tugas',fmt(at),'40%'],
+    ['Rata-rata Ulangan Harian',fmt(au),'30%'],
+    ['Ujian Semester',!isNaN(us)?us:'—','30%']
+  ].map(([l,v,b])=>`<tr><td style="text-align:left">${l}</td><td style="font-weight:700;color:var(--navy)">${v}</td><td style="color:#7a8aaa">${b}</td></tr>`).join('');
+  const block=document.getElementById('otNilaiAkhir');
+  if(na!==null){
+    block.style.display='block';
+    document.getElementById('otNilaiAkhirVal').textContent=na;
+    document.getElementById('otNilaiAkhirBadge').innerHTML=na>=KKM
+      ?'<span style="background:#e6f9ee;color:#1a7a3c;border:1px solid #a3d9b5;padding:3px 10px;border-radius:99px;font-size:.76rem;font-weight:700">✅ Tuntas (KKM '+KKM+')</span>'
+      :'<span style="background:#fff0f0;color:#c0392b;border:1px solid #f5b8b8;padding:3px 10px;border-radius:99px;font-size:.76rem;font-weight:700">❌ Belum Tuntas (KKM '+KKM+')</span>';
+  } else {block.style.display='none';}
 }
 
 function showApp(){
@@ -1460,9 +1711,20 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 // INIT
 // ============================================================
 (function init(){
+  // cek sesi orangtua dulu
+  const savedOrtu=sessionStorage.getItem('ortu_siswa');
+  if(savedOrtu){
+    try{_ortuSiswa=JSON.parse(savedOrtu);if(getDB())showOrtuApp();else doLogoutOrtu();}
+    catch(e){doLogoutOrtu();}
+    return;
+  }
+  // cek sesi guru
   const saved=sessionStorage.getItem('misska_user');
   if(saved){CU=JSON.parse(saved);showApp();}
-  else{document.getElementById('loginPage').style.display='flex';}
+  else{
+    document.getElementById('loginPage').style.display='flex';
+    setLoginMode('guru');
+  }
   document.addEventListener('click',e=>{
     const sb=document.getElementById('sidebar');
     if(window.innerWidth<=768&&sb.classList.contains('open')&&!sb.contains(e.target)&&!e.target.classList.contains('hamburger'))sb.classList.remove('open');
