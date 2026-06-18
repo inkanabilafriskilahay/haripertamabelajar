@@ -257,6 +257,12 @@ tbody td.tl{text-align:left;}
       <div class="login-err" id="loginErr">Username atau password salah.</div>
     </div>
 
+    <!-- PESAN ADMIN -->
+    <div id="loginPesan" style="margin-top:18px;padding:12px 14px;background:#f4f8ff;border-left:3px solid var(--gold);border-radius:9px;text-align:left;font-size:.78rem;color:#3a4a66;line-height:1.75;display:none;">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">📢 Pesan Admin</div>
+      <div id="loginPesanText"></div>
+    </div>
+
     <!-- PANEL ORANGTUA -->
     <div id="panelOrtu" style="display:none;">
       <div style="background:#f4f8ff;border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:.76rem;color:#5a6a88;text-align:left;line-height:1.8;">
@@ -719,7 +725,7 @@ function getDB(){
   const d = localStorage.getItem('misska_db');
   if(d) return JSON.parse(d);
   const db = {
-    settings:{sekolah:'SMA Negeri 1 Ampana Kota',tahun:'2024/2025',semester:'1'},
+    settings:{sekolah:'SMA Negeri 1 Ampana Kota',tahun:'2024/2025',semester:'1',pesan:'Selamat datang di aplikasi MISSKA, aplikasi ini dibuat untuk memudahkan administrasi guru dan sebagai kontrol orangtua siswa. Aplikasi ini masih terus berkembang dan akan selalu di update. Terimakasih.'},
     kelas:[
       {id:'k1',nama:'X IPA 1',wali:''},
       {id:'k2',nama:'X IPA 2',wali:''},
@@ -1662,6 +1668,11 @@ function loadSettings(){
   document.getElementById('setSekolah').value=db.settings.sekolah||'';
   document.getElementById('setTahun').value=db.settings.tahun||'';
   document.getElementById('setSemester').value=db.settings.semester||'1';
+  // pesan admin — hanya tampilkan form jika admin
+  const pesanEl=document.getElementById('setPesan');
+  if(pesanEl) pesanEl.value=db.settings.pesan||'';
+  const cardPesan=document.getElementById('cardPesanAdmin');
+  if(cardPesan) cardPesan.style.display=(CU&&CU.role==='admin')?'block':'none';
 }
 function simpanPengaturan(){
   const db=getDB();
@@ -1671,6 +1682,36 @@ function simpanPengaturan(){
   saveDB(db);
   document.getElementById('sbSchool').textContent=db.settings.sekolah;
   toast('✅ Pengaturan disimpan.');
+}
+function simpanPesan(){
+  const val=document.getElementById('setPesan').value.trim();
+  const db=getDB();
+  db.settings.pesan=val;
+  saveDB(db);
+  renderLoginPesan();
+  toast('✅ Pesan berhasil disimpan.');
+}
+function hapusPesan(){
+  if(!confirm('Hapus pesan di halaman login?'))return;
+  const db=getDB();
+  db.settings.pesan='';
+  saveDB(db);
+  document.getElementById('setPesan').value='';
+  renderLoginPesan();
+  toast('🗑️ Pesan dihapus.');
+}
+function renderLoginPesan(){
+  const db=getDB();
+  const pesan=(db.settings&&db.settings.pesan)||'';
+  const box=document.getElementById('loginPesan');
+  const txt=document.getElementById('loginPesanText');
+  if(!box||!txt)return;
+  if(pesan.trim()){
+    txt.textContent=pesan;
+    box.style.display='block';
+  } else {
+    box.style.display='none';
+  }
 }
 
 // ============================================================
@@ -1732,6 +1773,21 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 })();
 </script>
 
+<!-- ===== UPDATE BANNER ===== -->
+<div id="updateBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#1a7a3c;color:#fff;padding:13px 20px;z-index:10000;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 18px rgba(0,0,0,.25);">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="font-size:1.4rem;">🔄</span>
+    <div>
+      <div style="font-weight:700;font-size:.92rem;">Update Tersedia!</div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.8);">Versi terbaru MISSKA sudah siap dipasang.</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0;">
+    <button onclick="document.getElementById('updateBanner').style.display='none'" style="padding:7px 13px;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:7px;cursor:pointer;font-size:.82rem;">Nanti</button>
+    <button onclick="doAppUpdate()" style="padding:7px 16px;background:#fff;color:#1a7a3c;border:none;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:700;">⬆️ Update Sekarang</button>
+  </div>
+</div>
+
 <!-- ===== PWA INSTALL BANNER ===== -->
 <div id="pwaBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:14px 20px;z-index:9999;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 18px rgba(10,31,68,.25);">
   <div style="display:flex;align-items:center;gap:12px;">
@@ -1754,14 +1810,52 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 
 <script>
 // ============================================================
-// SERVICE WORKER
+// SERVICE WORKER + AUTO UPDATE
 // ============================================================
+let _swReg = null;
+let _newWorker = null;
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('SW registered:', reg.scope))
-      .catch(err => console.warn('SW failed:', err));
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      _swReg = reg;
+      reg.update(); // cek update setiap buka
+
+      // SW baru sudah menunggu (waiting) — langsung tampil banner
+      if (reg.waiting) {
+        _newWorker = reg.waiting;
+        document.getElementById('updateBanner').style.display = 'flex';
+      }
+
+      // SW baru sedang diinstall
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        if (!newSW) return;
+        newSW.addEventListener('statechange', () => {
+          if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+            _newWorker = newSW;
+            document.getElementById('updateBanner').style.display = 'flex';
+          }
+        });
+      });
+    }).catch(err => console.warn('SW failed:', err));
+
+    // Setelah SW baru aktif → reload otomatis ambil file terbaru
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
   });
+}
+
+function doAppUpdate() {
+  document.getElementById('updateBanner').style.display = 'none';
+  if (_newWorker) {
+    _newWorker.postMessage({ type: 'SKIP_WAITING' });
+  } else if (_swReg && _swReg.waiting) {
+    _swReg.waiting.postMessage({ type: 'SKIP_WAITING' });
+  } else {
+    window.location.reload();
+  }
 }
 
 // ============================================================
@@ -1804,11 +1898,7 @@ window.addEventListener('appinstalled', () => {
 // ============================================================
 function updateOnlineStatus() {
   const bar = document.getElementById('offlineBar');
-  if (!navigator.onLine) {
-    bar.style.display = 'block';
-  } else {
-    bar.style.display = 'none';
-  }
+  bar.style.display = navigator.onLine ? 'none' : 'block';
 }
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);

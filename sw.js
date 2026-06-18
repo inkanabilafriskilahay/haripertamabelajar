@@ -14,30 +14,27 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(ASSETS).catch(err => {
-        // Jika CDN gagal di-cache, lanjutkan tanpa error
         console.warn('Beberapa aset tidak bisa di-cache:', err);
         return cache.addAll(ASSETS.filter(a => !a.startsWith('http')));
       });
     })
   );
-  self.skipWaiting();
+  // Jangan skipWaiting otomatis — tunggu user tekan tombol update
+  // self.skipWaiting() dipanggil saat user klik "Update Sekarang"
 });
 
-// Activate: hapus cache lama
+// Activate: hapus cache lama, ambil kendali semua tab
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 // Fetch: cache-first untuk aset lokal, network-first untuk CDN
 self.addEventListener('fetch', e => {
   const url = e.request.url;
-
-  // Skip non-GET
   if (e.request.method !== 'GET') return;
 
   // Network-first untuk CDN eksternal
@@ -68,9 +65,9 @@ self.addEventListener('fetch', e => {
   );
 });
 
-// Background sync placeholder (untuk pengembangan lebih lanjut)
-self.addEventListener('sync', e => {
-  if (e.tag === 'sync-data') {
-    console.log('Background sync triggered');
+// Terima pesan dari halaman — saat user klik "Update Sekarang"
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
