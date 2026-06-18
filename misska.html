@@ -1702,7 +1702,13 @@ function hapusPesan(){
 }
 function renderLoginPesan(){
   const db=getDB();
-  const pesan=(db.settings&&db.settings.pesan)||'';
+  const DEFAULT_PESAN='Selamat datang di aplikasi MISSKA, aplikasi ini dibuat untuk memudahkan administrasi guru dan sebagai kontrol orangtua siswa. Aplikasi ini masih terus berkembang dan akan selalu di update. Terimakasih.';
+  // Migrasi: kalau settings belum punya field pesan, isi dengan default dan simpan
+  if(db.settings && db.settings.pesan===undefined){
+    db.settings.pesan=DEFAULT_PESAN;
+    saveDB(db);
+  }
+  const pesan=(db.settings&&db.settings.pesan!=null)?db.settings.pesan:DEFAULT_PESAN;
   const box=document.getElementById('loginPesan');
   const txt=document.getElementById('loginPesanText');
   if(!box||!txt)return;
