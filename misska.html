@@ -1771,6 +1771,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
   else{
     document.getElementById('loginPage').style.display='flex';
     setLoginMode('guru');
+    renderLoginPesan();
   }
   document.addEventListener('click',e=>{
     const sb=document.getElementById('sidebar');
