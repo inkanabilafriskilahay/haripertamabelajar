@@ -378,15 +378,13 @@ tbody td.tl{text-align:left;}
         <tbody id="lapNilaiBody"></tbody>
       </table></div>
       <div class="btn-row" style="margin-top:14px;">
-        <button class="btn btn-danger btn-sm" onclick="resetNilaiKelas()">ðŸ”„ Reset Nilai</button>
-        <button class="btn btn-gold" onclick="downloadPDF()">â¬‡ï¸ Unduh PDF</button>
-      </div>
+        <button class="btn btn-danger btn-sm" onclick="resetNilaiKelas()">Reset Nilai</button>
+        <button class="btn btn-gold" onclick="downloadPDF()">Unduh PDF</button>
         <button class="btn btn-sm" style="background:#27ae60;color:#fff;" onclick="kirimEmail()">Kirim via Email</button>
+      </div>
     </div>
-        <button class="btn btn-sm" style="background:#27ae60;color:#fff;" onclick="kirimEmail()">📧 Kirim via Email</button>
   </div>
 </div>
-
 <!-- PAGE: PENILAIAN TUGAS -->
 <div class="page" id="page-p-tugas">
   <div class="page-title">ðŸ“‹ Setoran Tugas</div>
@@ -1343,31 +1341,6 @@ function renderLoginPesan(){
   } else {
     box.style.display='none';
   }
-}
-
-// ============================================================
-// KIRIM EMAIL
-// ============================================================
-function kirimEmail(){
-  const db=getDB();
-  const k=db.kelas.find(x=>x.id===_lapKelas);
-  const siswaList=db.siswa.filter(s=>s.kelasId===_lapKelas);
-  const settings=db.settings;
-  const namaKelas=k?k.nama:'';
-  const subject=encodeURIComponent('Laporan Nilai Kelas '+namaKelas+' - '+settings.sekolah);
-  let body='Laporan Nilai Kelas '+namaKelas+'\n';
-  body+=(settings.sekolah||'')+' | TA '+(settings.tahun||'')+' Semester '+(settings.semester||'')+'\n';
-  body+='Guru: '+CU.nama+' | '+CU.mapel+'\n\n';
-  body+='No | Nama Siswa | Tugas | UH | Ujian | Nilai Akhir | Status\n';
-  body+='---|---|---|---|---|---|---\n';
-  siswaList.forEach((s,i)=>{
-    const d=getNilaiSiswa(s.id);
-    const t=avgArr(d.tugas),u=avgArr(d.uh),us=parseFloat(d.ujian),na=hitungNA(s.id);
-    const status=na===null?'-':na>=KKM?'Tuntas':'Belum Tuntas';
-    body+=(i+1)+'| '+s.nama+' | '+(t!==null?t:'-')+' | '+(u!==null?u:'-')+' | '+(!isNaN(us)?us:'-')+' | '+(na!==null?na:'-')+' | '+status+'\n';
-  });
-  body+='\nDikirim dari Aplikasi MISSKA\nTanggal: '+new Date().toLocaleString('id-ID');
-  window.location.href='mailto:?subject='+subject+'&body='+encodeURIComponent(body);
 }
 
 // ============================================================
