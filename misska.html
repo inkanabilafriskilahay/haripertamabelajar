@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
@@ -10,7 +10,7 @@
 <meta name="application-name" content="MISSKA"/>
 <meta name="theme-color" content="#0a1f44"/>
 <meta name="description" content="Aplikasi manajemen absensi, nilai, dan administrasi sekolah untuk guru"/>
-<title>MISSKA — Manajemen Absensi & Nilai</title>
+<title>MISSKA â€” Manajemen Absensi & Nilai</title>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="icons/icon-192.png"/>
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"/>
@@ -39,7 +39,7 @@ body{font-family:'Tahoma',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);
 .btn-login:hover{background:var(--gold2);}
 .login-err{color:#c0392b;font-size:.85rem;margin-top:10px;display:none;}
 
-/* LOGIN — mode selector */
+/* LOGIN â€” mode selector */
 .login-mode-sel{display:flex;gap:10px;margin-bottom:24px;}
 .mode-btn{flex:1;padding:13px 8px;border-radius:10px;border:2px solid var(--border);background:#f6f8fc;cursor:pointer;font-size:.82rem;font-weight:700;color:#7a8aaa;transition:all .18s;text-align:center;line-height:1.4;}
 .mode-btn .mode-ic{font-size:1.5rem;display:block;margin-bottom:4px;}
@@ -233,120 +233,19 @@ tbody td.tl{text-align:left;}
 <!-- LOGIN -->
 <div id="loginPage">
   <div class="login-box" id="loginBox">
-    <div class="login-logo">📚</div>
+    <div class="login-logo">ðŸ“š</div>
     <h2>MISSKA</h2>
-    <p class="sub" id="loginSub">Silakan pilih jenis pengguna</p>
+    <p class="sub">Manajemen Input Siswa, Skor, Kehadiran &amp; Akademik</p>
 
-    <!-- Pilih mode -->
-    <div style="display:flex;gap:10px;margin-bottom:22px;">
-      <button id="btnModeGuru" onclick="setLoginMode('guru')"
-        style="flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;transition:all .18s;">
-        <span style="font-size:1.5rem;display:block;margin-bottom:3px;">🧑‍🏫</span>Guru / Admin
-      </button>
-      <button id="btnModeOrtu" onclick="setLoginMode('ortu')"
-        style="flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--border);background:#f6f8fc;color:#7a8aaa;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;transition:all .18s;">
-        <span style="font-size:1.5rem;display:block;margin-bottom:3px;">👨‍👩‍👧</span>Orangtua
-      </button>
-    </div>
-
-    <!-- PANEL GURU -->
-    <div id="panelGuru">
-      <div class="lf-group"><label>Username</label><input type="text" id="loginUser" placeholder="Contoh: guru1 / admin" autocomplete="username"/></div>
-      <div class="lf-group"><label>Password</label><input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-      <button class="btn-login" onclick="doLogin()">Masuk sebagai Guru</button>
-      <div class="login-err" id="loginErr">Username atau password salah.</div>
-    </div>
+    <div class="lf-group"><label>Username</label><input type="text" id="loginUser" placeholder="Username" autocomplete="username"/></div>
+    <div class="lf-group"><label>Password</label><input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-login" onclick="doLogin()">Masuk</button>
+    <div class="login-err" id="loginErr">Username atau password salah.</div>
 
     <!-- PESAN ADMIN -->
     <div id="loginPesan" style="margin-top:18px;padding:12px 14px;background:#f4f8ff;border-left:3px solid var(--gold);border-radius:9px;text-align:left;font-size:.78rem;color:#3a4a66;line-height:1.75;display:none;">
-      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">📢 Pesan Admin</div>
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">ðŸ“¢ Pesan Admin</div>
       <div id="loginPesanText"></div>
-    </div>
-
-    <!-- PANEL ORANGTUA -->
-    <div id="panelOrtu" style="display:none;">
-      <div style="background:#f4f8ff;border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:.76rem;color:#5a6a88;text-align:left;line-height:1.8;">
-        <strong style="color:var(--navy);">Cara login:</strong><br>
-        👤 Username: nama anak, huruf kecil, tanpa spasi<br>
-        🔑 Password: nama anak + angka <strong>1</strong><br>
-        Contoh <em>"Andi Pratama"</em> → <strong>andipratama</strong> / <strong>andipratama1</strong>
-      </div>
-      <div class="lf-group"><label>Username (Nama Anak)</label><input type="text" id="ortuUser" placeholder="Nama anak huruf kecil tanpa spasi" autocomplete="username"/></div>
-      <div class="lf-group"><label>Password</label><input type="password" id="ortuPass" placeholder="Nama anak + angka 1" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLoginOrtu()"/></div>
-      <button class="btn-login" onclick="doLoginOrtu()" style="background:var(--navy);color:#fff;">Masuk sebagai Orangtua</button>
-      <div class="login-err" id="ortuErr">Username atau password salah. Periksa nama siswa.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- PORTAL ORANGTUA (halaman terpisah dalam satu file) -->
-<div id="ortuPage" style="display:none;">
-  <div style="background:var(--navy);color:#fff;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(10,31,68,.18);">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span style="font-size:1.5rem;">📚</span>
-      <div>
-        <div style="font-size:.95rem;font-weight:800;line-height:1.2;">Portal Orangtua</div>
-        <div style="font-size:.68rem;color:var(--gold);" id="ortuSchool">MISSKA</div>
-      </div>
-    </div>
-    <button onclick="doLogoutOrtu()" style="padding:7px 16px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:7px;cursor:pointer;font-size:.82rem;">🚪 Keluar</button>
-  </div>
-  <div style="max-width:860px;margin:0 auto;padding:22px 16px 56px;">
-    <div style="background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:14px;padding:20px 22px;margin-bottom:20px;color:#fff;">
-      <div style="font-size:1.05rem;font-weight:800;margin-bottom:3px;">Halo, <span id="ortuSapa">Orangtua</span> 👋</div>
-      <div style="font-size:.83rem;color:rgba(255,255,255,.75);">Informasi akademik: <strong id="ortuNamaSiswa">—</strong></div>
-      <span id="ortuKelasTag" style="display:inline-block;background:var(--gold);color:var(--navy);border-radius:99px;padding:3px 13px;font-size:.76rem;font-weight:700;margin-top:10px;">—</span>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:20px;">
-      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--navy);text-align:center;"><div style="font-size:1.4rem;">📋</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-tugas">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Tugas Masuk</div></div>
-      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #27ae60;text-align:center;"><div style="font-size:1.4rem;">✅</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-hadir">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Total Hadir</div></div>
-      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #f39c12;text-align:center;"><div style="font-size:1.4rem;">📋</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-izin">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Izin / Sakit</div></div>
-      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border-top:4px solid #e74c3c;text-align:center;"><div style="font-size:1.4rem;">❌</div><div style="font-size:1.55rem;font-weight:800;color:var(--navy);" id="os-alfa">0</div><div style="font-size:.7rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Alfa</div></div>
-    </div>
-
-    <!-- Tab bar -->
-    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;" id="ortuTabBar">
-      <button class="otab active" onclick="ortuTab('tugas',this)">📋 Setoran Tugas</button>
-      <button class="otab" onclick="ortuTab('absensi',this)">✅ Absensi</button>
-      <button class="otab" onclick="ortuTab('nilai',this)">📊 Nilai</button>
-    </div>
-
-    <div id="otab-tugas" class="otab-panel" style="display:block;">
-      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
-        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">📋 Status Setoran Tugas</div>
-        <div style="overflow-x:auto;"><table style="min-width:280px;">
-          <thead><tr><th>Tugas ke-</th><th>Nilai</th><th>Status</th></tr></thead>
-          <tbody id="otTugasBody"></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <div id="otab-absensi" class="otab-panel" style="display:none;">
-      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
-        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">✅ Rekap Kehadiran</div>
-        <div style="overflow-x:auto;"><table style="min-width:280px;">
-          <thead><tr><th>Minggu</th><th>Pertemuan 1</th><th>Pertemuan 2</th></tr></thead>
-          <tbody id="otAbsensiBody"></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <div id="otab-nilai" class="otab-panel" style="display:none;">
-      <div style="background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:20px 22px;">
-        <div style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);">📊 Ringkasan Nilai</div>
-        <div style="overflow-x:auto;"><table style="min-width:280px;">
-          <thead><tr><th>Komponen</th><th>Nilai</th><th>Bobot</th></tr></thead>
-          <tbody id="otNilaiBody"></tbody>
-        </table></div>
-        <div id="otNilaiAkhir" style="display:none;margin-top:16px;background:var(--bg);border-radius:10px;padding:16px;text-align:center;">
-          <div style="font-size:.75rem;color:#7a8aaa;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-bottom:6px;">Nilai Akhir</div>
-          <div style="font-size:2.2rem;font-weight:800;color:var(--navy);" id="otNilaiAkhirVal">—</div>
-          <div id="otNilaiAkhirBadge" style="margin-top:6px;"></div>
-          <div style="font-size:.7rem;color:#aab;margin-top:8px;">Rumus: Tugas×40% + UH×30% + Ujian×30%</div>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -359,37 +258,37 @@ tbody td.tl{text-align:left;}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sb-brand">
-    <div class="bi">📚</div>
+    <div class="bi">ðŸ“š</div>
     <h3>MISSKA</h3>
-    <p id="sbSchool">—</p>
+    <p id="sbSchool">â€”</p>
   </div>
   <nav class="sb-menu" id="sbMenu">
-    <div class="mi active" onclick="navTo('dashboard',this)" data-page="dashboard"><span class="ic">🏠</span>Dashboard</div>
+    <div class="mi active" onclick="navTo('dashboard',this)" data-page="dashboard"><span class="ic">ðŸ </span>Dashboard</div>
     <div class="mi-label">ABSENSI</div>
-    <div class="mi" onclick="navTo('absensi',this)" data-page="absensi"><span class="ic">✅</span>Absensi</div>
-    <div class="mi" onclick="navTo('laporan',this)" data-page="laporan"><span class="ic">📊</span>Laporan Kelas</div>
+    <div class="mi" onclick="navTo('absensi',this)" data-page="absensi"><span class="ic">âœ…</span>Absensi</div>
+    <div class="mi" onclick="navTo('laporan',this)" data-page="laporan"><span class="ic">ðŸ“Š</span>Laporan Kelas</div>
     <div class="mi-label">PENILAIAN</div>
-    <div class="mi has-sub" id="menuNilai" onclick="toggleSub('menuNilai','subNilai')"><span class="ic">📝</span>Penilaian<span class="arr">▶</span></div>
+    <div class="mi has-sub" id="menuNilai" onclick="toggleSub('menuNilai','subNilai')"><span class="ic">ðŸ“</span>Penilaian<span class="arr">â–¶</span></div>
     <div class="sub-menu" id="subNilai">
-      <div class="smi" onclick="navTo('p-tugas',this)" data-page="p-tugas">📋 Setoran Tugas</div>
-      <div class="smi" onclick="navTo('p-uh',this)" data-page="p-uh">📄 Ulangan Harian</div>
-      <div class="smi" onclick="navTo('p-ujian',this)" data-page="p-ujian">🎓 Ujian Semester</div>
+      <div class="smi" onclick="navTo('p-tugas',this)" data-page="p-tugas">ðŸ“‹ Setoran Tugas</div>
+      <div class="smi" onclick="navTo('p-uh',this)" data-page="p-uh">ðŸ“„ Ulangan Harian</div>
+      <div class="smi" onclick="navTo('p-ujian',this)" data-page="p-ujian">ðŸŽ“ Ujian Semester</div>
     </div>
     <div class="mi-label">DATA</div>
-    <div class="mi" onclick="navTo('data-siswa',this)" data-page="data-siswa"><span class="ic">👥</span>Data Siswa</div>
-    <div class="mi" onclick="navTo('data-kelas',this)" data-page="data-kelas"><span class="ic">🏫</span>Data Kelas</div>
+    <div class="mi" onclick="navTo('data-siswa',this)" data-page="data-siswa"><span class="ic">ðŸ‘¥</span>Data Siswa</div>
+    <div class="mi" onclick="navTo('data-kelas',this)" data-page="data-kelas"><span class="ic">ðŸ«</span>Data Kelas</div>
     <div class="mi-label" id="adminLabel" style="display:none;">ADMIN</div>
-    <div class="mi" id="menuUsers" onclick="navTo('users',this)" data-page="users" style="display:none;"><span class="ic">👤</span>Pengguna</div>
+    <div class="mi" id="menuUsers" onclick="navTo('users',this)" data-page="users" style="display:none;"><span class="ic">ðŸ‘¤</span>Pengguna</div>
     <div class="mi-label">AKUN</div>
-    <div class="mi" onclick="navTo('profil',this)" data-page="profil"><span class="ic">🪪</span>Profil Saya</div>
-    <div class="mi" onclick="navTo('pengaturan',this)" data-page="pengaturan"><span class="ic">⚙️</span>Pengaturan</div>
+    <div class="mi" onclick="navTo('profil',this)" data-page="profil"><span class="ic">ðŸªª</span>Profil Saya</div>
+    <div class="mi" onclick="navTo('pengaturan',this)" data-page="pengaturan"><span class="ic">âš™ï¸</span>Pengaturan</div>
   </nav>
   <div class="sb-footer">
     <div class="sb-user">
       <img class="sb-avatar" id="sbAvatar" src="" alt="avatar" />
-      <div><div class="sb-uname" id="sbUname">—</div><div class="sb-role" id="sbRole">—</div></div>
+      <div><div class="sb-uname" id="sbUname">â€”</div><div class="sb-role" id="sbRole">â€”</div></div>
     </div>
-    <button class="btn-logout" onclick="doLogout()">🚪 Keluar</button>
+    <button class="btn-logout" onclick="doLogout()">ðŸšª Keluar</button>
   </div>
 </aside>
 
@@ -397,11 +296,11 @@ tbody td.tl{text-align:left;}
 <div class="main">
   <div class="topbar">
     <div class="tb-left">
-      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <button class="hamburger" onclick="toggleSidebar()">â˜°</button>
       <h2 id="topTitle">Dashboard</h2>
     </div>
     <div class="tb-right" onclick="navTo('profil',null)">
-      <span class="tb-uname" id="topUname">—</span>
+      <span class="tb-uname" id="topUname">â€”</span>
       <img class="tb-avatar" id="topAvatar" src="" alt="avatar" />
     </div>
   </div>
@@ -409,13 +308,13 @@ tbody td.tl{text-align:left;}
 
 <!-- PAGE: DASHBOARD -->
 <div class="page active" id="page-dashboard">
-  <div class="page-title">📊 Dashboard</div>
+  <div class="page-title">ðŸ“Š Dashboard</div>
   <div class="cards-row">
-    <div class="card c-navy"><div class="ci">👥</div><div class="cv" id="d-total">0</div><div class="cl">Total Siswa</div></div>
-    <div class="card c-green"><div class="ci">✅</div><div class="cv" id="d-hadir">0</div><div class="cl">Hadir</div></div>
-    <div class="card c-orange"><div class="ci">📋</div><div class="cv" id="d-izin">0</div><div class="cl">Izin</div></div>
-    <div class="card c-red"><div class="ci">🤒</div><div class="cv" id="d-sakit">0</div><div class="cl">Sakit</div></div>
-    <div class="card c-purple"><div class="ci">❌</div><div class="cv" id="d-alfa">0</div><div class="cl">Alfa</div></div>
+    <div class="card c-navy"><div class="ci">ðŸ‘¥</div><div class="cv" id="d-total">0</div><div class="cl">Total Siswa</div></div>
+    <div class="card c-green"><div class="ci">âœ…</div><div class="cv" id="d-hadir">0</div><div class="cl">Hadir</div></div>
+    <div class="card c-orange"><div class="ci">ðŸ“‹</div><div class="cv" id="d-izin">0</div><div class="cl">Izin</div></div>
+    <div class="card c-red"><div class="ci">ðŸ¤’</div><div class="cv" id="d-sakit">0</div><div class="cl">Sakit</div></div>
+    <div class="card c-purple"><div class="ci">âŒ</div><div class="cv" id="d-alfa">0</div><div class="cl">Alfa</div></div>
   </div>
   <div class="section-card">
     <h3>Ringkasan Per Kelas</h3>
@@ -429,7 +328,7 @@ tbody td.tl{text-align:left;}
 
 <!-- PAGE: ABSENSI -->
 <div class="page" id="page-absensi">
-  <div class="page-title">✅ Absensi</div>
+  <div class="page-title">âœ… Absensi</div>
   <div class="section-card">
     <div class="fr">
       <div class="fg"><label>Kelas</label><select id="absKelas" onchange="renderAbsensi()"></select></div>
@@ -445,23 +344,23 @@ tbody td.tl{text-align:left;}
       <tbody id="absBody"></tbody>
     </table></div>
     <div class="btn-row">
-      <button class="btn btn-navy" onclick="resetAbsensi()">🔄 Reset</button>
-      <button class="btn btn-gold" onclick="simpanAbsensi()">💾 Simpan</button>
+      <button class="btn btn-navy" onclick="resetAbsensi()">ðŸ”„ Reset</button>
+      <button class="btn btn-gold" onclick="simpanAbsensi()">ðŸ’¾ Simpan</button>
     </div>
   </div>
 </div>
 
 <!-- PAGE: LAPORAN -->
 <div class="page" id="page-laporan">
-  <div class="page-title">📊 Laporan Kelas</div>
+  <div class="page-title">ðŸ“Š Laporan Kelas</div>
   <div id="lapList"><div class="kelas-list" id="lapKelasCards"></div></div>
   <div id="lapDetail" style="display:none;">
-    <button class="btn btn-navy btn-sm" style="margin-bottom:14px;" onclick="backLaporan()">← Kembali</button>
+    <button class="btn btn-navy btn-sm" style="margin-bottom:14px;" onclick="backLaporan()">â† Kembali</button>
     <div class="section-card">
       <h3 id="lapKelasTitle">Laporan Kelas</h3>
       <div class="cards-row" style="margin-bottom:14px;">
-        <div class="card c-navy"><div class="ci">👥</div><div class="cv" id="lp-total">0</div><div class="cl">Total Siswa</div></div>
-        <div class="card c-green"><div class="ci">✅</div><div class="cv" id="lp-pct">0%</div><div class="cl">% Kehadiran</div></div>
+        <div class="card c-navy"><div class="ci">ðŸ‘¥</div><div class="cv" id="lp-total">0</div><div class="cl">Total Siswa</div></div>
+        <div class="card c-green"><div class="ci">âœ…</div><div class="cv" id="lp-pct">0%</div><div class="cl">% Kehadiran</div></div>
       </div>
       <div class="chart-wrap" id="lapChart"></div>
     </div>
@@ -479,55 +378,57 @@ tbody td.tl{text-align:left;}
         <tbody id="lapNilaiBody"></tbody>
       </table></div>
       <div class="btn-row" style="margin-top:14px;">
-        <button class="btn btn-danger btn-sm" onclick="resetNilaiKelas()">🔄 Reset Nilai</button>
-        <button class="btn btn-gold" onclick="downloadPDF()">⬇️ Unduh PDF</button>
+        <button class="btn btn-danger btn-sm" onclick="resetNilaiKelas()">ðŸ”„ Reset Nilai</button>
+        <button class="btn btn-gold" onclick="downloadPDF()">â¬‡ï¸ Unduh PDF</button>
       </div>
+        <button class="btn btn-sm" style="background:#27ae60;color:#fff;" onclick="kirimEmail()">Kirim via Email</button>
     </div>
+        <button class="btn btn-sm" style="background:#27ae60;color:#fff;" onclick="kirimEmail()">📧 Kirim via Email</button>
   </div>
 </div>
 
 <!-- PAGE: PENILAIAN TUGAS -->
 <div class="page" id="page-p-tugas">
-  <div class="page-title">📋 Setoran Tugas</div>
+  <div class="page-title">ðŸ“‹ Setoran Tugas</div>
   <div class="section-card">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
       <div class="fr" style="margin:0;"><div class="fg"><label>Kelas</label><select id="tugasKelas" onchange="renderTugasTable()"></select></div></div>
-      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiTugas()">🔄 Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiTugas()">💾 Simpan</button></div>
+      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiTugas()">ðŸ”„ Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiTugas()">ðŸ’¾ Simpan</button></div>
     </div>
-    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah · Tab = samping · Auto-save saat pindah kolom</p>
+    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah Â· Tab = samping Â· Auto-save saat pindah kolom</p>
     <div class="sp-wrap" id="tugasWrap"></div>
   </div>
 </div>
 
 <!-- PAGE: PENILAIAN UH -->
 <div class="page" id="page-p-uh">
-  <div class="page-title">📄 Ulangan Harian</div>
+  <div class="page-title">ðŸ“„ Ulangan Harian</div>
   <div class="section-card">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
       <div class="fr" style="margin:0;"><div class="fg"><label>Kelas</label><select id="uhKelas" onchange="renderUHTable()"></select></div></div>
-      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiUH()">🔄 Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiUH()">💾 Simpan</button></div>
+      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiUH()">ðŸ”„ Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiUH()">ðŸ’¾ Simpan</button></div>
     </div>
-    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah · Tab = samping · Auto-save saat pindah kolom</p>
+    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah Â· Tab = samping Â· Auto-save saat pindah kolom</p>
     <div class="sp-wrap" id="uhWrap"></div>
   </div>
 </div>
 
 <!-- PAGE: PENILAIAN UJIAN -->
 <div class="page" id="page-p-ujian">
-  <div class="page-title">🎓 Ujian Semester</div>
+  <div class="page-title">ðŸŽ“ Ujian Semester</div>
   <div class="section-card">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
       <div class="fr" style="margin:0;"><div class="fg"><label>Kelas</label><select id="ujianKelas" onchange="renderUjianTable()"></select></div></div>
-      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiUjian()">🔄 Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiUjian()">💾 Simpan</button></div>
+      <div style="display:flex;gap:8px;"><button class="btn btn-navy btn-sm" onclick="resetNilaiUjian()">ðŸ”„ Reset</button><button class="btn btn-gold btn-sm" onclick="simpanNilaiUjian()">ðŸ’¾ Simpan</button></div>
     </div>
-    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah · Tab = samping · Auto-save saat pindah kolom</p>
+    <p style="font-size:.75rem;color:#7a8aaa;margin-bottom:12px;">Enter = bawah Â· Tab = samping Â· Auto-save saat pindah kolom</p>
     <div class="sp-wrap" id="ujianWrap"></div>
   </div>
 </div>
 
 <!-- PAGE: DATA SISWA -->
 <div class="page" id="page-data-siswa">
-  <div class="page-title">👥 Data Siswa</div>
+  <div class="page-title">ðŸ‘¥ Data Siswa</div>
   <div class="section-card">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
       <div class="fr" style="margin:0;gap:8px;">
@@ -535,9 +436,9 @@ tbody td.tl{text-align:left;}
         <div class="fg"><label>Cari</label><input type="text" class="search-bar" id="siswaSearch" placeholder="Cari nama..." oninput="renderSiswaTable()" style="width:180px;" /></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-navy btn-sm" onclick="openPasteModal()">📋 Paste Nama</button>
-        <button class="btn btn-green btn-sm" onclick="openImportExcel()">📥 Import Excel</button>
-        <button class="btn btn-gold btn-sm" onclick="downloadTemplate()">⬇️ Template</button>
+        <button class="btn btn-navy btn-sm" onclick="openPasteModal()">ðŸ“‹ Paste Nama</button>
+        <button class="btn btn-green btn-sm" onclick="openImportExcel()">ðŸ“¥ Import Excel</button>
+        <button class="btn btn-gold btn-sm" onclick="downloadTemplate()">â¬‡ï¸ Template</button>
         <button class="btn btn-gold" onclick="openAddSiswa()">+ Tambah Siswa</button>
       </div>
     </div>
@@ -553,7 +454,7 @@ tbody td.tl{text-align:left;}
 
 <!-- PAGE: DATA KELAS -->
 <div class="page" id="page-data-kelas">
-  <div class="page-title">🏫 Data Kelas</div>
+  <div class="page-title">ðŸ« Data Kelas</div>
   <div class="section-card">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
       <span style="font-size:.85rem;color:#7a8aaa;" id="kelasCount">0 kelas terdaftar (maks. 12)</span>
@@ -568,7 +469,7 @@ tbody td.tl{text-align:left;}
 
 <!-- PAGE: PENGGUNA (ADMIN ONLY) -->
 <div class="page" id="page-users">
-  <div class="page-title">👤 Manajemen Pengguna</div>
+  <div class="page-title">ðŸ‘¤ Manajemen Pengguna</div>
   <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
     <button class="btn btn-gold" onclick="openAddUser()">+ Tambah Pengguna</button>
   </div>
@@ -577,15 +478,15 @@ tbody td.tl{text-align:left;}
 
 <!-- PAGE: PROFIL -->
 <div class="page" id="page-profil">
-  <div class="page-title">🪪 Profil Saya</div>
+  <div class="page-title">ðŸªª Profil Saya</div>
   <div class="profile-card" id="profilCard"></div>
   <div class="section-card" id="editProfilSection">
     <h3>Edit Profil</h3>
     <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
       <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
         <img id="previewAvatar" src="" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" />
-        <label class="btn btn-navy btn-sm" style="cursor:pointer;">📷 Ganti Foto<input type="file" id="fotoInput" accept="image/jpg,image/jpeg,image/png" style="display:none;" onchange="previewFoto(event)" /></label>
-        <span style="font-size:.7rem;color:#aaa;">Maks. 2MB · JPG/PNG</span>
+        <label class="btn btn-navy btn-sm" style="cursor:pointer;">ðŸ“· Ganti Foto<input type="file" id="fotoInput" accept="image/jpg,image/jpeg,image/png" style="display:none;" onchange="previewFoto(event)" /></label>
+        <span style="font-size:.7rem;color:#aaa;">Maks. 2MB Â· JPG/PNG</span>
       </div>
       <div style="flex:1;min-width:220px;">
         <div class="fg" style="margin-bottom:10px;"><label>Nama Lengkap</label><input type="text" id="epNama" /></div>
@@ -596,15 +497,15 @@ tbody td.tl{text-align:left;}
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="simpanProfil()">💾 Simpan Profil</button>
-      <button class="btn btn-navy" onclick="openGantiPassword()">🔑 Ganti Password</button>
+      <button class="btn btn-gold" onclick="simpanProfil()">ðŸ’¾ Simpan Profil</button>
+      <button class="btn btn-navy" onclick="openGantiPassword()">ðŸ”‘ Ganti Password</button>
     </div>
   </div>
 </div>
 
 <!-- PAGE: PENGATURAN -->
 <div class="page" id="page-pengaturan">
-  <div class="page-title">⚙️ Pengaturan</div>
+  <div class="page-title">âš™ï¸ Pengaturan</div>
   <div class="section-card" style="max-width:480px;">
     <h3>Informasi Sekolah</h3>
     <div class="fg" style="margin-bottom:12px;"><label>Nama Sekolah</label><input type="text" id="setSekolah" /></div>
@@ -612,7 +513,7 @@ tbody td.tl{text-align:left;}
     <div class="fg" style="margin-bottom:12px;"><label>Semester</label>
       <select id="setSemester"><option value="1">Semester 1 (Ganjil)</option><option value="2">Semester 2 (Genap)</option></select>
     </div>
-    <button class="btn btn-gold" onclick="simpanPengaturan()">💾 Simpan</button>
+    <button class="btn btn-gold" onclick="simpanPengaturan()">ðŸ’¾ Simpan</button>
   </div>
 </div>
 
@@ -684,7 +585,7 @@ tbody td.tl{text-align:left;}
 
 <div class="modal-overlay" id="modalImportKelas">
   <div class="modal">
-    <h3>Import Excel — Pilih Kelas</h3>
+    <h3>Import Excel â€” Pilih Kelas</h3>
     <div class="fg"><label>Kelas Tujuan</label><select id="importKelas"></select></div>
     <div class="modal-btns"><button class="btn btn-navy btn-sm" onclick="closeModal('modalImportKelas')">Batal</button><button class="btn btn-gold btn-sm" onclick="konfirmasiImport()">Lanjut Import</button></div>
   </div>
@@ -693,7 +594,7 @@ tbody td.tl{text-align:left;}
 <div class="modal-overlay" id="modalResetPw">
   <div class="modal">
     <h3>Reset Password Pengguna</h3>
-    <p style="font-size:.85rem;color:#7a8aaa;margin-bottom:14px;">Reset password untuk: <strong id="resetPwTarget">—</strong></p>
+    <p style="font-size:.85rem;color:#7a8aaa;margin-bottom:14px;">Reset password untuk: <strong id="resetPwTarget">â€”</strong></p>
     <div class="fg"><label>Password Baru</label><input type="password" id="resetPwVal" /></div>
     <div class="modal-btns"><button class="btn btn-navy btn-sm" onclick="closeModal('modalResetPw')">Batal</button><button class="btn btn-gold btn-sm" onclick="doResetPw()">Reset</button></div>
   </div>
@@ -789,282 +690,6 @@ function doLogout(){
   document.getElementById('loginUser').value='';
   document.getElementById('loginPass').value='';
   setLoginMode('guru');
-}
-
-// ============================================================
-// LOGIN MODE SELECTOR
-// ============================================================
-function setLoginMode(mode){
-  const isGuru=mode==='guru';
-  document.getElementById('panelGuru').style.display=isGuru?'block':'none';
-  document.getElementById('panelOrtu').style.display=isGuru?'none':'block';
-  document.getElementById('loginErr').style.display='none';
-  document.getElementById('ortuErr').style.display='none';
-  const on='flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
-  const off='flex:1;padding:14px 6px;border-radius:11px;border:2px solid #dde3f0;background:#f6f8fc;color:#7a8aaa;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
-  const on2='flex:1;padding:14px 6px;border-radius:11px;border:2px solid var(--navy2);background:var(--navy2);color:#fff;cursor:pointer;font-size:.82rem;font-weight:700;line-height:1.4;';
-  document.getElementById('btnModeGuru').style.cssText=isGuru?on:off;
-  document.getElementById('btnModeOrtu').style.cssText=isGuru?off:on2;
-  document.getElementById('loginSub').textContent=isGuru?'Masuk menggunakan akun guru / admin':'Masuk untuk melihat tugas & nilai anak';
-}
-
-// ============================================================
-// PORTAL ORANGTUA — AUTH
-// ============================================================
-let _ortuSiswa=null;
-
-function normOrtu(nama){return nama.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');}
-
-function doLoginOrtu(){
-  const un=document.getElementById('ortuUser').value.trim().toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');
-  const pw=document.getElementById('ortuPass').value;
-  const errEl=document.getElementById('ortuErr');
-  errEl.style.display='none';
-  const db=getDB();
-  if(!db||!db.siswa){errEl.textContent='Data belum tersedia. Minta guru membuka MISSKA dulu.';errEl.style.display='block';return;}
-  const found=db.siswa.find(s=>{const u=normOrtu(s.nama);return u===un&&pw===(u+'1');});
-  if(!found){errEl.textContent='Username atau password salah. Periksa nama siswa.';errEl.style.display='block';return;}
-  _ortuSiswa=found;
-  sessionStorage.setItem('ortu_siswa',JSON.stringify(found));
-  showOrtuApp();
-}
-
-function doLogoutOrtu(){
-  sessionStorage.removeItem('ortu_siswa');
-  _ortuSiswa=null;
-  document.getElementById('ortuPage').style.display='none';
-  document.getElementById('loginPage').style.display='flex';
-  document.getElementById('ortuUser').value='';
-  document.getElementById('ortuPass').value='';
-  setLoginMode('ortu');
-}
-
-// ============================================================
-// PORTAL ORANGTUA — TAMPILAN
-// ============================================================
-function showOrtuApp(){
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('appPage').style.display='none';
-  document.getElementById('ortuPage').style.display='block';
-  const db=getDB();
-  const kelas=db.kelas.find(k=>k.id===_ortuSiswa.kelasId);
-  document.getElementById('ortuSchool').textContent=(db.settings&&db.settings.sekolah)||'MISSKA';
-  document.getElementById('ortuSapa').textContent='Orangtua '+_ortuSiswa.nama.split(' ')[0];
-  document.getElementById('ortuNamaSiswa').textContent=_ortuSiswa.nama;
-  document.getElementById('ortuKelasTag').textContent='📚 '+(kelas?kelas.nama:'—');
-  ortuRenderStats(db,kelas);
-  ortuRenderTugas();
-  ortuRenderAbsensi(db,kelas);
-  ortuRenderNilai();
-}
-
-function ortuRenderStats(db,kelas){
-  let hadir=0,izin=0,alfa=0;
-  if(kelas){
-    Object.keys(db.absensi||{}).filter(k=>k.startsWith(kelas.id+'_')).forEach(key=>{
-      const e=(db.absensi[key]||{})[_ortuSiswa.id];
-      if(e){['p1','p2'].forEach(pt=>{const v=e[pt]||'Hadir';if(v==='Hadir')hadir++;else if(v==='Izin'||v==='Sakit')izin++;else alfa++;});}
-    });
-  }
-  const d=getNilaiSiswa(_ortuSiswa.id);
-  document.getElementById('os-tugas').textContent=d.tugas.filter(v=>v!==''&&v!==undefined&&v!==null).length;
-  document.getElementById('os-hadir').textContent=hadir;
-  document.getElementById('os-izin').textContent=izin;
-  document.getElementById('os-alfa').textContent=alfa;
-}
-
-function ortuTab(tab,btn){
-  document.querySelectorAll('.otab-panel').forEach(p=>p.style.display='none');
-  document.querySelectorAll('.otab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('otab-'+tab).style.display='block';
-  btn.classList.add('active');
-}
-
-function ortuRenderTugas(){
-  const d=getNilaiSiswa(_ortuSiswa.id);
-  document.getElementById('otTugasBody').innerHTML=Array.from({length:8},(_,i)=>{
-    const val=d.tugas[i];const ada=val!==undefined&&val!==''&&val!==null;
-    return`<tr><td style="text-align:left">Tugas ${i+1}</td>`
-      +`<td>${ada?'<strong>'+val+'</strong>':'<span style="color:#bbb">—</span>'}</td>`
-      +`<td>${ada
-        ?'<span style="background:#e6f9ee;color:#1a7a3c;border:1px solid #a3d9b5;padding:2px 9px;border-radius:99px;font-size:.74rem;font-weight:700">✅ Masuk</span>'
-        :'<span style="background:#fff0f0;color:#c0392b;border:1px solid #f5b8b8;padding:2px 9px;border-radius:99px;font-size:.74rem;font-weight:700">⏳ Belum</span>'
-      }</td></tr>`;
-  }).join('');
-}
-
-function ortuRenderAbsensi(db,kelas){
-  const tbody=document.getElementById('otAbsensiBody');
-  if(!kelas){tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:20px;color:#aab">Kelas tidak ditemukan.</td></tr>';return;}
-  const keys=Object.keys(db.absensi||{}).filter(k=>k.startsWith(kelas.id+'_'));
-  if(!keys.length){tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:20px;color:#aab">Belum ada data absensi.</td></tr>';return;}
-  keys.sort((a,b)=>parseInt(a.match(/_m(\d+)/)?.[1]||0)-parseInt(b.match(/_m(\d+)/)?.[1]||0));
-  const col={'Hadir':'color:#27ae60;font-weight:700','Izin':'color:#f39c12;font-weight:700','Sakit':'color:#e74c3c;font-weight:700','Alfa':'color:#8e44ad;font-weight:700'};
-  tbody.innerHTML=keys.map(key=>{
-    const m=key.match(/_m(\d+)/)?.[1]||'?';
-    const e=(db.absensi[key]||{})[_ortuSiswa.id];
-    const p1=e?(e.p1||'Hadir'):'—',p2=e?(e.p2||'Hadir'):'—';
-    return`<tr><td>Minggu ke-${m}</td><td><span style="${col[p1]||''}">${p1}</span></td><td><span style="${col[p2]||''}">${p2}</span></td></tr>`;
-  }).join('');
-}
-
-function ortuRenderNilai(){
-  const d=getNilaiSiswa(_ortuSiswa.id);
-  const at=avgArr(d.tugas),au=avgArr(d.uh),us=parseFloat(d.ujian),na=hitungNA(_ortuSiswa.id);
-  const fmt=v=>(v!==null&&!isNaN(v))?v:'—';
-  document.getElementById('otNilaiBody').innerHTML=[
-    ['Rata-rata Tugas',fmt(at),'40%'],
-    ['Rata-rata Ulangan Harian',fmt(au),'30%'],
-    ['Ujian Semester',!isNaN(us)?us:'—','30%']
-  ].map(([l,v,b])=>`<tr><td style="text-align:left">${l}</td><td style="font-weight:700;color:var(--navy)">${v}</td><td style="color:#7a8aaa">${b}</td></tr>`).join('');
-  const block=document.getElementById('otNilaiAkhir');
-  if(na!==null){
-    block.style.display='block';
-    document.getElementById('otNilaiAkhirVal').textContent=na;
-    document.getElementById('otNilaiAkhirBadge').innerHTML=na>=KKM
-      ?'<span style="background:#e6f9ee;color:#1a7a3c;border:1px solid #a3d9b5;padding:3px 10px;border-radius:99px;font-size:.76rem;font-weight:700">✅ Tuntas (KKM '+KKM+')</span>'
-      :'<span style="background:#fff0f0;color:#c0392b;border:1px solid #f5b8b8;padding:3px 10px;border-radius:99px;font-size:.76rem;font-weight:700">❌ Belum Tuntas (KKM '+KKM+')</span>';
-  } else {block.style.display='none';}
-}
-
-function showApp(){
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('appPage').style.display='block';
-  // admin menu
-  const isAdmin=CU.role==='admin';
-  document.getElementById('adminLabel').style.display=isAdmin?'':'none';
-  document.getElementById('menuUsers').style.display=isAdmin?'':'none';
-  // sidebar user info
-  const av=CU.foto||DEFAULT_AVATAR;
-  document.getElementById('sbAvatar').src=av;
-  document.getElementById('sbUname').textContent=CU.nama;
-  document.getElementById('sbRole').textContent=CU.role==='admin'?'Administrator':'Guru';
-  document.getElementById('topAvatar').src=av;
-  document.getElementById('topUname').textContent=CU.nama;
-  const db=getDB();
-  document.getElementById('sbSchool').textContent=db.settings.sekolah;
-  populateKelasSelects();
-  loadSettings();
-  renderDashboard();
-}
-
-function refreshCU(){
-  const db=getDB();
-  const fresh=db.users.find(u=>u.id===CU.id);
-  if(fresh){CU=fresh;sessionStorage.setItem('misska_user',JSON.stringify(CU));}
-}
-</script>
-
-<script>
-// ============================================================
-// NAVIGATION
-// ============================================================
-function navTo(page, el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.mi,.smi').forEach(m=>m.classList.remove('active'));
-  const pg=document.getElementById('page-'+page);
-  if(pg) pg.classList.add('active');
-  if(el) el.classList.add('active');
-  document.getElementById('topTitle').textContent=PAGE_TITLES[page]||page;
-  if(page.startsWith('p-')){
-    document.getElementById('menuNilai').classList.add('open');
-    document.getElementById('subNilai').classList.add('open');
-  }
-  if(page==='dashboard') renderDashboard();
-  if(page==='absensi') renderAbsensi();
-  if(page==='laporan') renderLaporanList();
-  if(page==='p-tugas') renderTugasTable();
-  if(page==='p-uh') renderUHTable();
-  if(page==='p-ujian') renderUjianTable();
-  if(page==='data-siswa') renderSiswaTable();
-  if(page==='data-kelas') renderKelasTable();
-  if(page==='users') renderUsers();
-  if(page==='profil') renderProfil();
-  if(page==='pengaturan') loadSettings();
-  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
-}
-
-function toggleSub(menuId, subId){
-  document.getElementById(menuId).classList.toggle('open');
-  document.getElementById(subId).classList.toggle('open');
-}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
-
-function populateKelasSelects(){
-  const db=getDB();
-  const kelas=db.kelas;
-  const selIds=['absKelas','tugasKelas','uhKelas','ujianKelas','siswaFilterKelas','mSKelas','pasteKelas','importKelas'];
-  selIds.forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    const isFilter=id==='siswaFilterKelas';
-    el.innerHTML=(isFilter?'<option value="">Semua Kelas</option>':'')+kelas.map(k=>`<option value="${k.id}">${k.nama}</option>`).join('');
-  });
-}
-
-// ============================================================
-// DASHBOARD
-// ============================================================
-function renderDashboard(){
-  const db=getDB();
-  let total=0,hadir=0,izin=0,sakit=0,alfa=0;
-  const rows=[];
-  db.kelas.forEach(k=>{
-    const siswaList=db.siswa.filter(s=>s.kelasId===k.id);
-    let kH=0,kI=0,kS=0,kA=0;
-    siswaList.forEach(s=>{
-      total++;
-      const keys=Object.keys(db.absensi).filter(key=>key.startsWith(k.id+'_'));
-      let st='Hadir';
-      if(keys.length){const e=db.absensi[keys[keys.length-1]];if(e&&e[s.id])st=e[s.id].p1||'Hadir';}
-      if(st==='Hadir'){hadir++;kH++;}else if(st==='Izin'){izin++;kI++;}else if(st==='Sakit'){sakit++;kS++;}else{alfa++;kA++;}
-    });
-    const pct=siswaList.length?Math.round(kH/siswaList.length*100):0;
-    rows.push({nama:k.nama,total:siswaList.length,hadir:kH,izin:kI,sakit:kS,alfa:kA,pct});
-  });
-  document.getElementById('d-total').textContent=total;
-  document.getElementById('d-hadir').textContent=hadir;
-  document.getElementById('d-izin').textContent=izin;
-  document.getElementById('d-sakit').textContent=sakit;
-  document.getElementById('d-alfa').textContent=alfa;
-  document.getElementById('dashKelasBody').innerHTML=rows.map(r=>`
-    <tr><td class="tl"><strong>${r.nama}</strong></td><td>${r.total}</td>
-    <td style="color:#27ae60;font-weight:600;">${r.hadir}</td>
-    <td style="color:#f39c12;">${r.izin}</td>
-    <td style="color:#e74c3c;">${r.sakit}</td>
-    <td style="color:#8e44ad;">${r.alfa}</td>
-    <td><div style="display:flex;align-items:center;gap:6px;"><div class="prog-bar" style="flex:1;"><div class="prog-fill" style="width:${r.pct}%;"></div></div><span style="font-size:.78rem;font-weight:700;">${r.pct}%</span></div></td>
-    </tr>`).join('');
-  renderBarChart('dashChart',[
-    {label:'Hadir',val:hadir,color:'#27ae60'},{label:'Izin',val:izin,color:'#f39c12'},
-    {label:'Sakit',val:sakit,color:'#e74c3c'},{label:'Alfa',val:alfa,color:'#8e44ad'}
-  ]);
-}
-
-function renderBarChart(id,data){
-  const w=document.getElementById(id);if(!w)return;
-  const max=Math.max(...data.map(d=>d.val),1);
-  w.innerHTML=data.map(d=>{const h=Math.round(d.val/max*100);return`<div class="bar-col"><div class="bar-val">${d.val}</div><div class="bar" style="height:${h}px;background:${d.color};"></div><div class="bar-lbl">${d.label}</div></div>`;}).join('');
-}
-
-// ============================================================
-// ABSENSI
-// ============================================================
-function absKey(){return document.getElementById('absKelas').value+'_m'+document.getElementById('absMinggu').value;}
-
-function renderAbsensi(){
-  const db=getDB();
-  const kid=document.getElementById('absKelas').value;
-  const key=absKey();
-  const siswaList=db.siswa.filter(s=>s.kelasId===kid);
-  const saved=db.absensi[key]||{};
-  document.getElementById('absBody').innerHTML=siswaList.map((s,i)=>{
-    const p1=(saved[s.id]&&saved[s.id].p1)||'Hadir';
-    const p2=(saved[s.id]&&saved[s.id].p2)||'Hadir';
-    return`<tr><td>${i+1}</td><td class="tl">${s.nama}</td><td>${mkSt(s.id,'p1',p1)}</td><td>${mkSt(s.id,'p2',p2)}</td></tr>`;
-  }).join('');
-  document.querySelectorAll('.st-sel').forEach(sel=>{colorSt(sel);sel.addEventListener('change',function(){colorSt(this);});});
-}
 
 function mkSt(id,pt,val){
   const opts=['Hadir','Izin','Sakit','Alfa'].map(s=>`<option ${s===val?'selected':''}>${s}</option>`).join('');
@@ -1080,12 +705,12 @@ function simpanAbsensi(){
     if(!db.absensi[key][id])db.absensi[key][id]={};
     db.absensi[key][id][pt]=sel.value;
   });
-  saveDB(db);toast('✅ Absensi disimpan!');
+  saveDB(db);toast('âœ… Absensi disimpan!');
 }
 
 function resetAbsensi(){
   if(!confirm('Reset absensi kelas ini?'))return;
-  const db=getDB();delete db.absensi[absKey()];saveDB(db);renderAbsensi();toast('🔄 Absensi direset.');
+  const db=getDB();delete db.absensi[absKey()];saveDB(db);renderAbsensi();toast('ðŸ”„ Absensi direset.');
 }
 </script>
 
@@ -1104,7 +729,7 @@ function renderLaporanList(){
     const st=getKelasStats(k.id,db);
     const pct=st.total?Math.round(st.hadir/st.total*100):0;
     return`<div class="kelas-card" onclick="showLapDetail('${k.id}')">
-      <h4>📚 ${k.nama}</h4><p>${siswaList.length} siswa · ${pct}% hadir</p>
+      <h4>ðŸ“š ${k.nama}</h4><p>${siswaList.length} siswa Â· ${pct}% hadir</p>
       <div class="prog-bar" style="margin-top:8px;"><div class="prog-fill" style="width:${pct}%;"></div></div>
     </div>`;
   }).join('');
@@ -1148,8 +773,8 @@ function showLapDetail(kid){
     const d=getNilaiSiswa(s.id);
     const t=avgArr(d.tugas),u=avgArr(d.uh),us=parseFloat(d.ujian);
     const na=hitungNA(s.id);
-    const badge=na===null?'—':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
-    return`<tr><td>${i+1}</td><td class="tl">${s.nama}</td><td>${t!==null?t:'—'}</td><td>${u!==null?u:'—'}</td><td>${!isNaN(us)?us:'—'}</td><td><strong>${na!==null?na:'—'}</strong></td><td>${badge}</td></tr>`;
+    const badge=na===null?'â€”':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
+    return`<tr><td>${i+1}</td><td class="tl">${s.nama}</td><td>${t!==null?t:'â€”'}</td><td>${u!==null?u:'â€”'}</td><td>${!isNaN(us)?us:'â€”'}</td><td><strong>${na!==null?na:'â€”'}</strong></td><td>${badge}</td></tr>`;
   });
   document.getElementById('lapNilaiBody').innerHTML=nilaiRows.join('');
 }
@@ -1160,7 +785,7 @@ function resetNilaiKelas(){
   if(!confirm('Reset semua nilai kelas ini?'))return;
   const db=getDB();
   db.siswa.filter(s=>s.kelasId===_lapKelas).forEach(s=>setNilaiSiswa(s.id,{tugas:[],uh:[],ujian:''}));
-  showLapDetail(_lapKelas);toast('🔄 Nilai kelas direset.');
+  showLapDetail(_lapKelas);toast('ðŸ”„ Nilai kelas direset.');
 }
 
 // ============================================================
@@ -1178,13 +803,13 @@ function spAutoSave(inp){
   if(inp.classList.contains('invalid'))return;
   const sid=inp.dataset.sid,field=inp.dataset.field,val=inp.value;
   const data=getNilaiSiswa(sid);
-  if(field.startsWith('t')){const i=parseInt(field.slice(1));while(data.tugas.length<=i)data.tugas.push('');data.tugas[i]=val;setNilaiSiswa(sid,data);const c=document.getElementById('avg-t-'+sid);if(c)c.textContent=avgArr(data.tugas)??'—';}
-  else if(field.startsWith('u')&&!field.startsWith('uj')){const i=parseInt(field.slice(1));while(data.uh.length<=i)data.uh.push('');data.uh[i]=val;setNilaiSiswa(sid,data);const c=document.getElementById('avg-u-'+sid);if(c)c.textContent=avgArr(data.uh)??'—';}
+  if(field.startsWith('t')){const i=parseInt(field.slice(1));while(data.tugas.length<=i)data.tugas.push('');data.tugas[i]=val;setNilaiSiswa(sid,data);const c=document.getElementById('avg-t-'+sid);if(c)c.textContent=avgArr(data.tugas)??'â€”';}
+  else if(field.startsWith('u')&&!field.startsWith('uj')){const i=parseInt(field.slice(1));while(data.uh.length<=i)data.uh.push('');data.uh[i]=val;setNilaiSiswa(sid,data);const c=document.getElementById('avg-u-'+sid);if(c)c.textContent=avgArr(data.uh)??'â€”';}
   else if(field==='ujian'){data.ujian=val;setNilaiSiswa(sid,data);}
   const na=hitungNA(sid);
   const naC=document.getElementById('na-'+sid);const stC=document.getElementById('st-'+sid);
-  if(naC)naC.textContent=na!==null?na:'—';
-  if(stC)stC.innerHTML=na===null?'—':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
+  if(naC)naC.textContent=na!==null?na:'â€”';
+  if(stC)stC.innerHTML=na===null?'â€”':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
   inp.classList.add('saved');setTimeout(()=>inp.classList.remove('saved'),1200);
 }
 function spNav(e,inp){
@@ -1193,7 +818,7 @@ function spNav(e,inp){
 }
 
 // ============================================================
-// PENILAIAN — TUGAS
+// PENILAIAN â€” TUGAS
 // ============================================================
 function renderTugasTable(){
   const db=getDB();const kid=document.getElementById('tugasKelas').value;
@@ -1204,21 +829,21 @@ function renderTugasTable(){
     const d=getNilaiSiswa(s.id);while(d.tugas.length<TUGAS_COLS)d.tugas.push('');
     const cells=Array.from({length:TUGAS_COLS},(_,ci)=>`<td>${spInput(s.id,'t'+ci,ci,ri,d.tugas[ci]||'')}</td>`).join('');
     const avg=avgArr(d.tugas);
-    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td>${cells}<td class="td-avg" id="avg-t-${s.id}">${avg!==null?avg:'—'}</td></tr>`;
+    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td>${cells}<td class="td-avg" id="avg-t-${s.id}">${avg!==null?avg:'â€”'}</td></tr>`;
   });
   html+='</tbody></table>';
   document.getElementById('tugasWrap').innerHTML=html;
 }
-function simpanNilaiTugas(){document.querySelectorAll('#tugasWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('✅ Nilai tugas disimpan!');}
+function simpanNilaiTugas(){document.querySelectorAll('#tugasWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('âœ… Nilai tugas disimpan!');}
 function resetNilaiTugas(){
   if(!confirm('Reset nilai tugas kelas ini?'))return;
   const db=getDB();const kid=document.getElementById('tugasKelas').value;
   db.siswa.filter(s=>s.kelasId===kid).forEach(s=>{const d=getNilaiSiswa(s.id);d.tugas=[];setNilaiSiswa(s.id,d);});
-  renderTugasTable();toast('🔄 Nilai tugas direset.');
+  renderTugasTable();toast('ðŸ”„ Nilai tugas direset.');
 }
 
 // ============================================================
-// PENILAIAN — UH
+// PENILAIAN â€” UH
 // ============================================================
 function renderUHTable(){
   const db=getDB();const kid=document.getElementById('uhKelas').value;
@@ -1229,21 +854,21 @@ function renderUHTable(){
     const d=getNilaiSiswa(s.id);while(d.uh.length<UH_COLS)d.uh.push('');
     const cells=Array.from({length:UH_COLS},(_,ci)=>`<td>${spInput(s.id,'u'+ci,ci,ri,d.uh[ci]||'')}</td>`).join('');
     const avg=avgArr(d.uh);
-    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td>${cells}<td class="td-avg" id="avg-u-${s.id}">${avg!==null?avg:'—'}</td></tr>`;
+    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td>${cells}<td class="td-avg" id="avg-u-${s.id}">${avg!==null?avg:'â€”'}</td></tr>`;
   });
   html+='</tbody></table>';
   document.getElementById('uhWrap').innerHTML=html;
 }
-function simpanNilaiUH(){document.querySelectorAll('#uhWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('✅ Nilai UH disimpan!');}
+function simpanNilaiUH(){document.querySelectorAll('#uhWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('âœ… Nilai UH disimpan!');}
 function resetNilaiUH(){
   if(!confirm('Reset nilai UH kelas ini?'))return;
   const db=getDB();const kid=document.getElementById('uhKelas').value;
   db.siswa.filter(s=>s.kelasId===kid).forEach(s=>{const d=getNilaiSiswa(s.id);d.uh=[];setNilaiSiswa(s.id,d);});
-  renderUHTable();toast('🔄 Nilai UH direset.');
+  renderUHTable();toast('ðŸ”„ Nilai UH direset.');
 }
 
 // ============================================================
-// PENILAIAN — UJIAN
+// PENILAIAN â€” UJIAN
 // ============================================================
 function renderUjianTable(){
   const db=getDB();const kid=document.getElementById('ujianKelas').value;
@@ -1251,18 +876,18 @@ function renderUjianTable(){
   let html=`<table class="sp-table"><thead><tr><th style="width:34px;">No</th><th class="th-name">Nama Siswa</th><th>Nilai Ujian Semester</th><th>Nilai Akhir</th><th>Status</th></tr></thead><tbody>`;
   siswaList.forEach((s,ri)=>{
     const d=getNilaiSiswa(s.id);const na=hitungNA(s.id);
-    const badge=na===null?'—':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
-    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td><td>${spInput(s.id,'ujian',0,ri,d.ujian||'')}</td><td class="td-na" id="na-${s.id}">${na!==null?na:'—'}</td><td class="td-status" id="st-${s.id}">${badge}</td></tr>`;
+    const badge=na===null?'â€”':na>=KKM?`<span class="badge-tuntas">Tuntas</span>`:`<span class="badge-tidak">Tidak Tuntas</span>`;
+    html+=`<tr><td class="td-no">${ri+1}</td><td class="td-name">${s.nama}</td><td>${spInput(s.id,'ujian',0,ri,d.ujian||'')}</td><td class="td-na" id="na-${s.id}">${na!==null?na:'â€”'}</td><td class="td-status" id="st-${s.id}">${badge}</td></tr>`;
   });
   html+='</tbody></table>';
   document.getElementById('ujianWrap').innerHTML=html;
 }
-function simpanNilaiUjian(){document.querySelectorAll('#ujianWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('✅ Nilai ujian disimpan!');}
+function simpanNilaiUjian(){document.querySelectorAll('#ujianWrap .sp-input').forEach(i=>{if(!i.classList.contains('invalid'))spAutoSave(i);});toast('âœ… Nilai ujian disimpan!');}
 function resetNilaiUjian(){
   if(!confirm('Reset nilai ujian kelas ini?'))return;
   const db=getDB();const kid=document.getElementById('ujianKelas').value;
   db.siswa.filter(s=>s.kelasId===kid).forEach(s=>{const d=getNilaiSiswa(s.id);d.ujian='';setNilaiSiswa(s.id,d);});
-  renderUjianTable();toast('🔄 Nilai ujian direset.');
+  renderUjianTable();toast('ðŸ”„ Nilai ujian direset.');
 }
 </script>
 
@@ -1294,10 +919,10 @@ function renderSiswaTable(){
       <td>${start+i+1}</td>
       <td class="tl">${s.nama}</td>
       <td>${s.jk==='L'?'Laki-laki':'Perempuan'}</td>
-      <td>${kelasMap[s.kelasId]||'—'}</td>
+      <td>${kelasMap[s.kelasId]||'â€”'}</td>
       <td>
-        <button class="btn btn-navy btn-sm" onclick="openEditSiswa('${s.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" style="margin-left:4px;" onclick="hapusSiswa('${s.id}')">🗑️</button>
+        <button class="btn btn-navy btn-sm" onclick="openEditSiswa('${s.id}')">âœï¸</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px;" onclick="hapusSiswa('${s.id}')">ðŸ—‘ï¸</button>
       </td>
     </tr>`).join('');
   // pagination
@@ -1341,17 +966,17 @@ function saveSiswa(){
   if(_editSiswaId){
     const s=db.siswa.find(x=>x.id===_editSiswaId);
     if(s){s.nama=nama;s.jk=jk;s.kelasId=kelasId;}
-    toast('✅ Data siswa diperbarui.');
+    toast('âœ… Data siswa diperbarui.');
   } else {
     db.siswa.push({id:'s_'+Date.now(),nama,jk,kelasId});
-    toast('✅ Siswa ditambahkan.');
+    toast('âœ… Siswa ditambahkan.');
   }
   saveDB(db);closeModal('modalSiswa');renderSiswaTable();
 }
 
 function hapusSiswa(id){
   if(!confirm('Hapus siswa ini?'))return;
-  const db=getDB();db.siswa=db.siswa.filter(s=>s.id!==id);saveDB(db);renderSiswaTable();toast('🗑️ Siswa dihapus.');
+  const db=getDB();db.siswa=db.siswa.filter(s=>s.id!==id);saveDB(db);renderSiswaTable();toast('ðŸ—‘ï¸ Siswa dihapus.');
 }
 
 // PASTE NAMA
@@ -1370,7 +995,7 @@ function prosessPaste(){
   if(!names.length){alert('Tidak ada nama yang dimasukkan.');return;}
   const db=getDB();
   names.forEach(nama=>db.siswa.push({id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2),nama,jk,kelasId:kid}));
-  saveDB(db);closeModal('modalPaste');renderSiswaTable();toast(`✅ ${names.length} siswa ditambahkan.`);
+  saveDB(db);closeModal('modalPaste');renderSiswaTable();toast(`âœ… ${names.length} siswa ditambahkan.`);
 }
 
 // IMPORT EXCEL
@@ -1404,7 +1029,7 @@ function konfirmasiImport(){
     const jk=r.jk==='P'?'P':'L';
     db.siswa.push({id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2),nama:r.nama,jk,kelasId:kid});
   });
-  saveDB(db);closeModal('modalImportKelas');renderSiswaTable();toast(`✅ ${_pendingExcelData.length} siswa diimport.`);_pendingExcelData=[];
+  saveDB(db);closeModal('modalImportKelas');renderSiswaTable();toast(`âœ… ${_pendingExcelData.length} siswa diimport.`);_pendingExcelData=[];
 }
 
 function downloadTemplate(){
@@ -1426,10 +1051,10 @@ function renderKelasTable(){
     const jml=db.siswa.filter(s=>s.kelasId===k.id).length;
     return`<tr>
       <td>${i+1}</td><td class="tl"><strong>${k.nama}</strong></td>
-      <td class="tl">${k.wali||'—'}</td><td>${jml} siswa</td>
+      <td class="tl">${k.wali||'â€”'}</td><td>${jml} siswa</td>
       <td>
-        <button class="btn btn-navy btn-sm" onclick="openEditKelas('${k.id}')">✏️ Edit</button>
-        <button class="btn btn-danger btn-sm" style="margin-left:4px;" onclick="hapusKelas('${k.id}')">🗑️</button>
+        <button class="btn btn-navy btn-sm" onclick="openEditKelas('${k.id}')">âœï¸ Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px;" onclick="hapusKelas('${k.id}')">ðŸ—‘ï¸</button>
       </td>
     </tr>`;
   }).join('');
@@ -1459,10 +1084,10 @@ function saveKelas(){
   const db=getDB();
   if(_editKelasId){
     const k=db.kelas.find(x=>x.id===_editKelasId);if(k){k.nama=nama;k.wali=wali;}
-    toast('✅ Kelas diperbarui.');
+    toast('âœ… Kelas diperbarui.');
   } else {
     db.kelas.push({id:'k_'+Date.now(),nama,wali});
-    toast('✅ Kelas ditambahkan.');
+    toast('âœ… Kelas ditambahkan.');
   }
   saveDB(db);closeModal('modalKelas');renderKelasTable();populateKelasSelects();
 }
@@ -1474,7 +1099,7 @@ function hapusKelas(id){
   if(!confirm('Yakin hapus kelas ini?'))return;
   db.siswa.filter(s=>s.kelasId===id).forEach(s=>s.kelasId='');
   db.kelas=db.kelas.filter(k=>k.id!==id);
-  saveDB(db);renderKelasTable();populateKelasSelects();toast('🗑️ Kelas dihapus.');
+  saveDB(db);renderKelasTable();populateKelasSelects();toast('ðŸ—‘ï¸ Kelas dihapus.');
 }
 </script>
 
@@ -1492,11 +1117,11 @@ function renderUsers(){
       <img class="user-card-avatar" src="${u.foto||DEFAULT_AVATAR}" />
       <div class="user-card-info">
         <h4>${u.nama} ${u.aktif?'':'<span style="color:#e74c3c;font-size:.75rem;">(Nonaktif)</span>'}</h4>
-        <p>${u.username} · <span class="${u.role==='admin'?'badge-admin':'badge-guru'}">${u.role==='admin'?'Admin':'Guru'}</span> · ${u.mapel||'—'}</p>
+        <p>${u.username} Â· <span class="${u.role==='admin'?'badge-admin':'badge-guru'}">${u.role==='admin'?'Admin':'Guru'}</span> Â· ${u.mapel||'â€”'}</p>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn btn-navy btn-sm" onclick="openEditUser('${u.id}')">✏️ Edit</button>
-        <button class="btn btn-sm" style="background:#f39c12;color:#fff;" onclick="openResetPw('${u.id}')">🔑 Reset PW</button>
+        <button class="btn btn-navy btn-sm" onclick="openEditUser('${u.id}')">âœï¸ Edit</button>
+        <button class="btn btn-sm" style="background:#f39c12;color:#fff;" onclick="openResetPw('${u.id}')">ðŸ”‘ Reset PW</button>
         <button class="btn btn-sm ${u.aktif?'btn-danger':'btn-green'}" onclick="toggleAktif('${u.id}')">${u.aktif?'Nonaktifkan':'Aktifkan'}</button>
       </div>
     </div>`).join('');
@@ -1535,12 +1160,12 @@ function saveUser(){
   if(_editUserId){
     const u=db.users.find(x=>x.id===_editUserId);
     if(u){u.nama=nama;u.username=username;if(pass)u.password=pass;u.role=role;u.nip=nip;u.mapel=mapel;}
-    toast('✅ Pengguna diperbarui.');
+    toast('âœ… Pengguna diperbarui.');
   } else {
     if(!pass){alert('Password wajib diisi untuk pengguna baru.');return;}
     if(db.users.find(u=>u.username===username)){alert('Username sudah digunakan.');return;}
     db.users.push({id:'u_'+Date.now(),username,password:pass,nama,nip,mapel,hp:'',email:'',role,aktif:true,foto:''});
-    toast('✅ Pengguna ditambahkan.');
+    toast('âœ… Pengguna ditambahkan.');
   }
   saveDB(db);closeModal('modalUser');renderUsers();
 }
@@ -1549,7 +1174,7 @@ function toggleAktif(id){
   const db=getDB();const u=db.users.find(x=>x.id===id);
   if(!u)return;
   if(u.id===CU.id){alert('Tidak dapat menonaktifkan akun sendiri.');return;}
-  u.aktif=!u.aktif;saveDB(db);renderUsers();toast(u.aktif?'✅ Akun diaktifkan.':'⚠️ Akun dinonaktifkan.');
+  u.aktif=!u.aktif;saveDB(db);renderUsers();toast(u.aktif?'âœ… Akun diaktifkan.':'âš ï¸ Akun dinonaktifkan.');
 }
 
 function openResetPw(id){
@@ -1565,7 +1190,7 @@ function doResetPw(){
   if(!pw||pw.length<4){alert('Password minimal 4 karakter.');return;}
   const db=getDB();const u=db.users.find(x=>x.id===_resetPwUserId);
   if(u){u.password=pw;saveDB(db);}
-  closeModal('modalResetPw');toast('✅ Password berhasil direset.');
+  closeModal('modalResetPw');toast('âœ… Password berhasil direset.');
 }
 
 // ============================================================
@@ -1582,10 +1207,10 @@ function renderProfil(){
       <h2>${CU.nama}</h2>
       <div class="role-badge"><span class="${CU.role==='admin'?'badge-admin':'badge-guru'}">${CU.role==='admin'?'Administrator':'Guru'}</span></div>
       <div class="pi-row"><span class="pi-label">Username</span><span class="pi-val">${CU.username}</span></div>
-      <div class="pi-row"><span class="pi-label">NIP</span><span class="pi-val">${CU.nip||'—'}</span></div>
-      <div class="pi-row"><span class="pi-label">Mata Pelajaran</span><span class="pi-val">${CU.mapel||'—'}</span></div>
-      <div class="pi-row"><span class="pi-label">Nomor HP</span><span class="pi-val">${CU.hp||'—'}</span></div>
-      <div class="pi-row"><span class="pi-label">Email</span><span class="pi-val">${CU.email||'—'}</span></div>
+      <div class="pi-row"><span class="pi-label">NIP</span><span class="pi-val">${CU.nip||'â€”'}</span></div>
+      <div class="pi-row"><span class="pi-label">Mata Pelajaran</span><span class="pi-val">${CU.mapel||'â€”'}</span></div>
+      <div class="pi-row"><span class="pi-label">Nomor HP</span><span class="pi-val">${CU.hp||'â€”'}</span></div>
+      <div class="pi-row"><span class="pi-label">Email</span><span class="pi-val">${CU.email||'â€”'}</span></div>
     </div>`;
   // fill edit form
   document.getElementById('previewAvatar').src=av;
@@ -1638,7 +1263,7 @@ function simpanProfil(){
   document.getElementById('topAvatar').src=av;
   document.getElementById('sbUname').textContent=CU.nama;
   renderProfil();
-  toast('✅ Profil disimpan!');
+  toast('âœ… Profil disimpan!');
 }
 
 function openGantiPassword(){
@@ -1657,7 +1282,7 @@ function gantiPassword(){
   if(baru!==konfirm){alert('Konfirmasi password tidak cocok.');return;}
   const db=getDB();const u=db.users.find(x=>x.id===CU.id);
   if(u){u.password=baru;saveDB(db);refreshCU();}
-  closeModal('modalPassword');toast('✅ Password berhasil diubah!');
+  closeModal('modalPassword');toast('âœ… Password berhasil diubah!');
 }
 
 // ============================================================
@@ -1668,7 +1293,7 @@ function loadSettings(){
   document.getElementById('setSekolah').value=db.settings.sekolah||'';
   document.getElementById('setTahun').value=db.settings.tahun||'';
   document.getElementById('setSemester').value=db.settings.semester||'1';
-  // pesan admin — hanya tampilkan form jika admin
+  // pesan admin â€” hanya tampilkan form jika admin
   const pesanEl=document.getElementById('setPesan');
   if(pesanEl) pesanEl.value=db.settings.pesan||'';
   const cardPesan=document.getElementById('cardPesanAdmin');
@@ -1681,7 +1306,7 @@ function simpanPengaturan(){
   db.settings.semester=document.getElementById('setSemester').value;
   saveDB(db);
   document.getElementById('sbSchool').textContent=db.settings.sekolah;
-  toast('✅ Pengaturan disimpan.');
+  toast('âœ… Pengaturan disimpan.');
 }
 function simpanPesan(){
   const val=document.getElementById('setPesan').value.trim();
@@ -1689,7 +1314,7 @@ function simpanPesan(){
   db.settings.pesan=val;
   saveDB(db);
   renderLoginPesan();
-  toast('✅ Pesan berhasil disimpan.');
+  toast('âœ… Pesan berhasil disimpan.');
 }
 function hapusPesan(){
   if(!confirm('Hapus pesan di halaman login?'))return;
@@ -1698,7 +1323,7 @@ function hapusPesan(){
   saveDB(db);
   document.getElementById('setPesan').value='';
   renderLoginPesan();
-  toast('🗑️ Pesan dihapus.');
+  toast('ðŸ—‘ï¸ Pesan dihapus.');
 }
 function renderLoginPesan(){
   const db=getDB();
@@ -1721,6 +1346,31 @@ function renderLoginPesan(){
 }
 
 // ============================================================
+// KIRIM EMAIL
+// ============================================================
+function kirimEmail(){
+  const db=getDB();
+  const k=db.kelas.find(x=>x.id===_lapKelas);
+  const siswaList=db.siswa.filter(s=>s.kelasId===_lapKelas);
+  const settings=db.settings;
+  const namaKelas=k?k.nama:'';
+  const subject=encodeURIComponent('Laporan Nilai Kelas '+namaKelas+' - '+settings.sekolah);
+  let body='Laporan Nilai Kelas '+namaKelas+'\n';
+  body+=(settings.sekolah||'')+' | TA '+(settings.tahun||'')+' Semester '+(settings.semester||'')+'\n';
+  body+='Guru: '+CU.nama+' | '+CU.mapel+'\n\n';
+  body+='No | Nama Siswa | Tugas | UH | Ujian | Nilai Akhir | Status\n';
+  body+='---|---|---|---|---|---|---\n';
+  siswaList.forEach((s,i)=>{
+    const d=getNilaiSiswa(s.id);
+    const t=avgArr(d.tugas),u=avgArr(d.uh),us=parseFloat(d.ujian),na=hitungNA(s.id);
+    const status=na===null?'-':na>=KKM?'Tuntas':'Belum Tuntas';
+    body+=(i+1)+'| '+s.nama+' | '+(t!==null?t:'-')+' | '+(u!==null?u:'-')+' | '+(!isNaN(us)?us:'-')+' | '+(na!==null?na:'-')+' | '+status+'\n';
+  });
+  body+='\nDikirim dari Aplikasi MISSKA\nTanggal: '+new Date().toLocaleString('id-ID');
+  window.location.href='mailto:?subject='+subject+'&body='+encodeURIComponent(body);
+}
+
+// ============================================================
 // PDF DOWNLOAD
 // ============================================================
 function downloadPDF(){
@@ -1732,17 +1382,17 @@ function downloadPDF(){
   <style>body{font-family:Arial,sans-serif;padding:20px;color:#1e2a3a;}h2{color:#0a1f44;margin-bottom:2px;}p{font-size:12px;color:#555;margin-bottom:10px;}table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:18px;}th{background:#0a1f44;color:#fff;padding:7px 8px;text-align:center;}td{padding:6px 8px;border-bottom:1px solid #dde3f0;text-align:center;}td:nth-child(2){text-align:left;}.tuntas{color:#1a7a3c;font-weight:700;}.tidak{color:#c0392b;font-weight:700;}.sec{font-size:13px;font-weight:700;color:#0a1f44;margin:14px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:3px;}.footer{margin-top:20px;padding-top:12px;border-top:1px solid #dde3f0;font-size:11px;}</style>
   </head><body>
   <h2>Laporan Kelas ${k?k.nama:''}</h2>
-  <p>${settings.sekolah} · TA ${settings.tahun} Semester ${settings.semester}</p>
-  <p style="font-size:10px;color:#888;">Rumus Nilai Akhir: (Tugas×40%) + (UH×30%) + (Ujian Sem.×30%) · KKM: ${KKM}</p>
+  <p>${settings.sekolah} Â· TA ${settings.tahun} Semester ${settings.semester}</p>
+  <p style="font-size:10px;color:#888;">Rumus Nilai Akhir: (TugasÃ—40%) + (UHÃ—30%) + (Ujian Sem.Ã—30%) Â· KKM: ${KKM}</p>
   <div class="sec">Rekap Nilai</div>
   <table><thead><tr><th>No.</th><th>Nama Siswa</th><th>Tugas (40%)</th><th>UH (30%)</th><th>Ujian Sem. (30%)</th><th>Nilai Akhir</th><th>Status</th></tr></thead><tbody>`;
   siswaList.forEach((s,i)=>{
     const d=getNilaiSiswa(s.id);const t=avgArr(d.tugas),u=avgArr(d.uh),us=parseFloat(d.ujian);const na=hitungNA(s.id);
-    const st=na===null?'—':na>=KKM?'<span class="tuntas">Tuntas</span>':'<span class="tidak">Tidak Tuntas</span>';
-    html+=`<tr><td>${i+1}</td><td>${s.nama}</td><td>${t!==null?t:'—'}</td><td>${u!==null?u:'—'}</td><td>${!isNaN(us)?us:'—'}</td><td><strong>${na!==null?na:'—'}</strong></td><td>${st}</td></tr>`;
+    const st=na===null?'â€”':na>=KKM?'<span class="tuntas">Tuntas</span>':'<span class="tidak">Tidak Tuntas</span>';
+    html+=`<tr><td>${i+1}</td><td>${s.nama}</td><td>${t!==null?t:'â€”'}</td><td>${u!==null?u:'â€”'}</td><td>${!isNaN(us)?us:'â€”'}</td><td><strong>${na!==null?na:'â€”'}</strong></td><td>${st}</td></tr>`;
   });
   html+=`</tbody></table>
-  <div class="footer">${guruFoto}<strong>${CU.nama}</strong><br>NIP: ${CU.nip||'—'}<br>Guru Mata Pelajaran ${CU.mapel||'Bahasa Indonesia'}<br><small>Dicetak: ${new Date().toLocaleString('id-ID')}</small></div>
+  <div class="footer">${guruFoto}<strong>${CU.nama}</strong><br>NIP: ${CU.nip||'â€”'}<br>Guru Mata Pelajaran ${CU.mapel||'Bahasa Indonesia'}<br><small>Dicetak: ${new Date().toLocaleString('id-ID')}</small></div>
   </body></html>`;
   const win=window.open('','_blank');win.document.write(html);win.document.close();win.focus();setTimeout(()=>win.print(),600);
 }
@@ -1758,19 +1408,11 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 // INIT
 // ============================================================
 (function init(){
-  // cek sesi orangtua dulu
-  const savedOrtu=sessionStorage.getItem('ortu_siswa');
-  if(savedOrtu){
-    try{_ortuSiswa=JSON.parse(savedOrtu);if(getDB())showOrtuApp();else doLogoutOrtu();}
-    catch(e){doLogoutOrtu();}
-    return;
-  }
   // cek sesi guru
   const saved=sessionStorage.getItem('misska_user');
   if(saved){CU=JSON.parse(saved);showApp();}
   else{
     document.getElementById('loginPage').style.display='flex';
-    setLoginMode('guru');
     renderLoginPesan();
   }
   document.addEventListener('click',e=>{
@@ -1783,7 +1425,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 <!-- ===== UPDATE BANNER ===== -->
 <div id="updateBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#1a7a3c;color:#fff;padding:13px 20px;z-index:10000;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 18px rgba(0,0,0,.25);">
   <div style="display:flex;align-items:center;gap:10px;">
-    <span style="font-size:1.4rem;">🔄</span>
+    <span style="font-size:1.4rem;">ðŸ”„</span>
     <div>
       <div style="font-weight:700;font-size:.92rem;">Update Tersedia!</div>
       <div style="font-size:.75rem;color:rgba(255,255,255,.8);">Versi terbaru MISSKA sudah siap dipasang.</div>
@@ -1791,14 +1433,14 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
   </div>
   <div style="display:flex;gap:8px;flex-shrink:0;">
     <button onclick="document.getElementById('updateBanner').style.display='none'" style="padding:7px 13px;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:7px;cursor:pointer;font-size:.82rem;">Nanti</button>
-    <button onclick="doAppUpdate()" style="padding:7px 16px;background:#fff;color:#1a7a3c;border:none;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:700;">⬆️ Update Sekarang</button>
+    <button onclick="doAppUpdate()" style="padding:7px 16px;background:#fff;color:#1a7a3c;border:none;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:700;">â¬†ï¸ Update Sekarang</button>
   </div>
 </div>
 
 <!-- ===== PWA INSTALL BANNER ===== -->
 <div id="pwaBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:14px 20px;z-index:9999;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 18px rgba(10,31,68,.25);">
   <div style="display:flex;align-items:center;gap:12px;">
-    <div style="width:40px;height:40px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">📚</div>
+    <div style="width:40px;height:40px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">ðŸ“š</div>
     <div>
       <div style="font-weight:700;font-size:.92rem;">Install MISSKA</div>
       <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Pasang di HP untuk akses cepat &amp; offline</div>
@@ -1812,7 +1454,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 
 <!-- ===== OFFLINE BAR ===== -->
 <div id="offlineBar" style="display:none;position:fixed;top:0;left:0;right:0;background:#e74c3c;color:#fff;text-align:center;padding:7px;font-size:.82rem;font-weight:600;z-index:9998;">
-  📵 Tidak ada koneksi internet — Mode Offline (data tetap tersimpan)
+  ðŸ“µ Tidak ada koneksi internet â€” Mode Offline (data tetap tersimpan)
 </div>
 
 <script>
@@ -1828,7 +1470,7 @@ if ('serviceWorker' in navigator) {
       _swReg = reg;
       reg.update(); // cek update setiap buka
 
-      // SW baru sudah menunggu (waiting) — langsung tampil banner
+      // SW baru sudah menunggu (waiting) â€” langsung tampil banner
       if (reg.waiting) {
         _newWorker = reg.waiting;
         document.getElementById('updateBanner').style.display = 'flex';
@@ -1847,7 +1489,7 @@ if ('serviceWorker' in navigator) {
       });
     }).catch(err => console.warn('SW failed:', err));
 
-    // Setelah SW baru aktif → reload otomatis ambil file terbaru
+    // Setelah SW baru aktif â†’ reload otomatis ambil file terbaru
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       window.location.reload();
     });
@@ -1884,7 +1526,7 @@ function installPWA() {
   if (!_deferredPrompt) return;
   _deferredPrompt.prompt();
   _deferredPrompt.userChoice.then(choice => {
-    if (choice.outcome === 'accepted') toast('✅ MISSKA berhasil diinstall!');
+    if (choice.outcome === 'accepted') toast('âœ… MISSKA berhasil diinstall!');
     _deferredPrompt = null;
     document.getElementById('pwaBanner').style.display = 'none';
   });
@@ -1897,7 +1539,7 @@ function dismissPWA() {
 
 window.addEventListener('appinstalled', () => {
   document.getElementById('pwaBanner').style.display = 'none';
-  toast('🎉 MISSKA berhasil diinstall di perangkat Anda!');
+  toast('ðŸŽ‰ MISSKA berhasil diinstall di perangkat Anda!');
 });
 
 // ============================================================
