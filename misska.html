@@ -320,6 +320,7 @@ tbody td.tl{text-align:left;}
     <div class="nav-tab" onclick="navTo('absensi',this)">✅ Absensi</div>
     <div class="nav-tab" onclick="navTo('nilai',this)">📝 Nilai</div>
     <div class="nav-tab" onclick="navTo('laporan',this)">📊 Laporan</div>
+    <div class="nav-tab" onclick="navTo('pengaturan',this)">⚙️ Pengaturan</div>
   </div>
 
   <!-- DASHBOARD -->
@@ -384,6 +385,49 @@ tbody td.tl{text-align:left;}
     </div>
     <div id="lapContainer">
       <div class="empty"><div class="ei">📊</div><p>Pilih kelas untuk melihat laporan.</p></div>
+    </div>
+  </div>
+
+  <!-- PENGATURAN -->
+  <div class="page" id="page-pengaturan">
+    <div class="page-title">⚙️ Pengaturan</div>
+    <div class="card">
+      <h3>👤 Info Akun</h3>
+      <div id="infoAkunBox" style="font-size:.88rem;color:var(--text);line-height:2.2;"></div>
+    </div>
+    <div class="card" id="cardMasterCode">
+      <h3>🔑 Kode Aktivasi Master</h3>
+      <p style="font-size:.8rem;color:#9aabb8;margin-bottom:16px;line-height:1.7;">
+        Kode ini digunakan guru baru saat mendaftar. Edit file <strong>config.json</strong> di GitHub untuk mengubahnya — semua HP yang online akan otomatis pakai kode baru.
+      </p>
+      <div style="background:var(--offwhite);border:1.5px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:.7rem;color:#9aabb8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Kode Aktif Saat Ini</div>
+        <div style="font-size:1.1rem;font-weight:800;color:var(--navy);letter-spacing:2px;" id="displayMasterCode">—</div>
+        <div style="font-size:.72rem;color:#b0bac8;margin-top:4px;">Diambil dari config.json di GitHub saat online.</div>
+      </div>
+      <div style="background:#fff8e6;border:1.5px solid rgba(201,168,76,.3);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:.78rem;font-weight:700;color:var(--gold2);margin-bottom:10px;">📋 Cara Ubah Kode Master:</div>
+        <ol style="font-size:.78rem;color:#7a8aaa;line-height:2.2;padding-left:18px;">
+          <li>Buka: <a href="https://github.com/inkanabilafriskilahay/haripertamabelajar/blob/main/config.json" target="_blank" style="color:var(--gold2);font-weight:700;">config.json di GitHub ↗</a></li>
+          <li>Klik ikon ✏️ (Edit file)</li>
+          <li>Ubah nilai <code style="background:#f0e8d0;padding:1px 6px;border-radius:4px;">"masterCode"</code></li>
+          <li>Klik <strong>Commit changes</strong></li>
+          <li>Semua HP yang online otomatis pakai kode baru</li>
+        </ol>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔒 Ganti Password Akun</h3>
+      <div class="fg"><label>Password Lama</label>
+        <input type="password" id="pwLama" placeholder="Password saat ini"/></div>
+      <div class="fg"><label>Password Baru</label>
+        <input type="password" id="pwBaru" placeholder="Min. 6 karakter"/></div>
+      <div class="fg"><label>Konfirmasi Password Baru</label>
+        <input type="password" id="pwKonfirm" placeholder="Ulangi password baru"/></div>
+      <div class="auth-err" id="pwErr" style="margin-bottom:0;"></div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-navy btn-sm" onclick="gantiPassword()">💾 Simpan Password</button>
+      </div>
     </div>
   </div>
 </div>
@@ -482,7 +526,21 @@ tbody td.tl{text-align:left;}
 // STORAGE KEY — tiap akun punya data sendiri
 // ============================================================
 const APP_KEY = 'misska_v3';
-const MASTER_CODE = 'MISSKA2025';
+let MASTER_CODE = localStorage.getItem('misska_master_code') || 'MISSKA2025';
+const CONFIG_URL = 'https://inkanabilafriskilahay.github.io/haripertamabelajar/config.json';
+
+// Fetch kode terbaru dari GitHub saat online
+function fetchMasterCode(){
+  fetch(CONFIG_URL + '?t=' + Date.now())
+    .then(r => r.json())
+    .then(cfg => {
+      if(cfg && cfg.masterCode){
+        MASTER_CODE = cfg.masterCode;
+        localStorage.setItem('misska_master_code', cfg.masterCode);
+      }
+    })
+    .catch(() => {}); // offline — pakai kode lokal
+}
 
 function getKey(uid){ return APP_KEY + '_' + uid; }
 
@@ -629,6 +687,7 @@ function navTo(page, el){
   if(page==='absensi') loadAbsensi();
   if(page==='nilai') loadNilai();
   if(page==='laporan') loadLaporan();
+  if(page==='pengaturan') loadPengaturan();
 }
 
 // ============================================================
@@ -1322,6 +1381,54 @@ function exportExcel(kid){
 }
 
 // ============================================================
+// PENGATURAN
+// ============================================================
+function loadPengaturan(){
+  // Info akun
+  document.getElementById('infoAkunBox').innerHTML = `
+    <div><span style="color:#9aabb8;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;">Nama</span><br><strong>${CU.nama}</strong></div>
+    <div><span style="color:#9aabb8;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;">Email</span><br><strong>${CU.email}</strong></div>
+    <div><span style="color:#9aabb8;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;">Status</span><br><span class="badge badge-green">✅ Aktif</span></div>`;
+
+  // Kode master — hanya tampil untuk akun pertama (master)
+  const users = getUsers();
+  const allUsers = Object.values(users);
+  const isMaster = allUsers.length === 0 || allUsers[0].id === CU.id;
+  document.getElementById('cardMasterCode').style.display = isMaster ? 'block' : 'none';
+  if(isMaster){
+    fetchMasterCode();
+    setTimeout(()=>{
+      const el = document.getElementById('displayMasterCode');
+      if(el) el.textContent = MASTER_CODE;
+    }, 800);
+  }
+
+  // reset form password
+  ['pwLama','pwBaru','pwKonfirm'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pwErr').style.display='none';
+}
+
+function gantiPassword(){
+  const lama = document.getElementById('pwLama').value;
+  const baru = document.getElementById('pwBaru').value;
+  const konfirm = document.getElementById('pwKonfirm').value;
+  const errEl = document.getElementById('pwErr');
+  errEl.style.display='none';
+
+  if(!lama||!baru||!konfirm){ showErr(errEl,'Semua field wajib diisi.'); return; }
+  if(lama !== CU.password){ showErr(errEl,'Password lama salah.'); return; }
+  if(baru.length < 6){ showErr(errEl,'Password baru minimal 6 karakter.'); return; }
+  if(baru !== konfirm){ showErr(errEl,'Konfirmasi password tidak cocok.'); return; }
+
+  const users = getUsers();
+  if(users[CU.id]){ users[CU.id].password = baru; saveUsers(users); }
+  CU.password = baru;
+  sessionStorage.setItem('misska_cu', JSON.stringify(CU));
+  ['pwLama','pwBaru','pwKonfirm'].forEach(id=>document.getElementById(id).value='');
+  toast('✅ Password berhasil diubah!');
+}
+
+// ============================================================
 // MODAL & TOAST HELPERS
 // ============================================================
 function openModal(id){ document.getElementById(id).classList.add('open'); }
@@ -1337,6 +1444,7 @@ function toast(msg){
 // INIT
 // ============================================================
 (function init(){
+  fetchMasterCode(); // ambil kode terbaru dari GitHub
   const saved = sessionStorage.getItem('misska_cu');
   if(saved){
     try{
