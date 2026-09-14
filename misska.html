@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<meta name="theme-color" content="#1a73e8"/>
+<meta name="theme-color" content="#0a1f44"/>
 <title>MISSKA — Aplikasi Guru</title>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="icons/icon-192.png"/>
@@ -11,190 +11,227 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --blue:#1a73e8;--blue2:#1557b0;--green:#27ae60;--red:#e74c3c;
-  --gold:#f39c12;--navy:#0a1f44;
-  --white:#fff;--bg:#f0f4fb;--text:#1e2a3a;--border:#dde3f0;
-  --shadow:0 2px 12px rgba(26,115,232,.10);
+  --navy:#0a1f44;--navy2:#152d5e;--navy3:#1e3a6e;
+  --gold:#c9a84c;--gold2:#b8922e;--gold3:#e8c96a;
+  --white:#ffffff;--offwhite:#f8f6f1;
+  --black:#111318;--text:#1e2a3a;
+  --border:#dde3f0;--border2:#c9a84c33;
+  --bg:#f4f2ed;
+  --shadow:0 4px 20px rgba(10,31,68,.12);
+  --shadow2:0 8px 32px rgba(10,31,68,.18);
+  --green:#27ae60;--red:#e74c3c;--orange:#e67e22;
 }
 body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* ===== AUTH PAGES ===== */
+/* ===== AUTH ===== */
 .auth-page{display:none;align-items:center;justify-content:center;min-height:100vh;
-  background:linear-gradient(135deg,#1a73e8 0%,#0a1f44 100%);}
+  background:linear-gradient(145deg,var(--navy) 0%,var(--navy2) 50%,#0d1b38 100%);}
 .auth-page.active{display:flex;}
-.auth-box{background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:400px;
-  box-shadow:0 8px 40px rgba(0,0,0,.18);}
-.auth-logo{text-align:center;margin-bottom:20px;}
-.auth-logo .ic{font-size:2.8rem;}
-.auth-logo h1{font-size:1.4rem;font-weight:800;color:var(--navy);margin-top:4px;}
-.auth-logo p{font-size:.8rem;color:#7a8aaa;margin-top:2px;}
-.fg{margin-bottom:14px;}
-.fg label{display:block;font-size:.75rem;font-weight:700;color:#7a8aaa;
-  text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
-.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);
-  border-radius:9px;font-size:.92rem;outline:none;transition:border .2s;font-family:inherit;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue);}
-.btn{padding:11px 20px;border:none;border-radius:9px;font-size:.9rem;font-weight:700;
-  cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:6px;}
-.btn-blue{background:var(--blue);color:#fff;}
-.btn-blue:hover{background:var(--blue2);}
+.auth-page::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.12) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(201,168,76,.08) 0%,transparent 50%);
+  pointer-events:none;}
+.auth-box{background:var(--white);border-radius:22px;padding:44px 40px;width:100%;max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 0 1px rgba(201,168,76,.15);
+  position:relative;z-index:1;}
+.auth-logo{text-align:center;margin-bottom:26px;}
+.auth-logo .ic{font-size:3rem;display:block;margin-bottom:6px;}
+.auth-logo h1{font-size:1.6rem;font-weight:900;color:var(--navy);letter-spacing:-.5px;}
+.auth-logo .tagline{font-size:.78rem;color:#9aabb8;margin-top:3px;letter-spacing:.5px;text-transform:uppercase;}
+.auth-logo .gold-bar{width:40px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold3));
+  border-radius:99px;margin:10px auto 0;}
+.fg{margin-bottom:15px;}
+.fg label{display:block;font-size:.72rem;font-weight:700;color:#8a9bb5;
+  text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;
+  border:1.5px solid #e8edf5;border-radius:10px;font-size:.92rem;outline:none;
+  transition:border .2s,box-shadow .2s;font-family:inherit;background:#fafbfe;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{
+  border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.12);}
+.btn{padding:11px 20px;border:none;border-radius:10px;font-size:.88rem;font-weight:700;
+  cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;
+  letter-spacing:.2px;}
+.btn-navy{background:var(--navy);color:var(--white);}
+.btn-navy:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(10,31,68,.3);}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--white);}
+.btn-gold:hover{background:linear-gradient(135deg,var(--gold3),var(--gold));transform:translateY(-1px);box-shadow:0 4px 14px rgba(201,168,76,.35);}
 .btn-green{background:var(--green);color:#fff;}
-.btn-green:hover{background:#219150;}
+.btn-green:hover{background:#219150;transform:translateY(-1px);}
 .btn-red{background:var(--red);color:#fff;}
-.btn-red:hover{background:#c0392b;}
-.btn-gold{background:var(--gold);color:#fff;}
-.btn-gold:hover{background:#e67e22;}
-.btn-gray{background:#f0f4fb;color:#7a8aaa;border:1.5px solid var(--border);}
-.btn-gray:hover{background:#e2eaf5;color:var(--navy);}
+.btn-red:hover{background:#c0392b;transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--border);background:#fff;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold2);}
 .btn-full{width:100%;justify-content:center;}
-.btn-sm{padding:6px 13px;font-size:.8rem;}
-.auth-err{background:#fff0f0;color:var(--red);border-radius:8px;padding:9px 12px;
-  font-size:.83rem;margin-bottom:12px;display:none;}
-.auth-switch{text-align:center;margin-top:16px;font-size:.82rem;color:#7a8aaa;}
-.auth-switch a{color:var(--blue);font-weight:700;cursor:pointer;text-decoration:none;}
+.btn-sm{padding:6px 13px;font-size:.78rem;}
+.auth-err{background:#fff2f2;color:var(--red);border-radius:9px;padding:9px 13px;
+  font-size:.82rem;margin-bottom:13px;display:none;border-left:3px solid var(--red);}
+.auth-switch{text-align:center;margin-top:18px;font-size:.82rem;color:#9aabb8;}
+.auth-switch a{color:var(--gold2);font-weight:700;cursor:pointer;text-decoration:none;}
+.auth-switch a:hover{color:var(--gold);}
 
-/* ===== PENDING PAGE ===== */
+/* ===== PENDING ===== */
 #pendingPage{display:none;align-items:center;justify-content:center;min-height:100vh;
-  background:linear-gradient(135deg,#1a73e8,#0a1f44);}
-.pending-box{background:#fff;border-radius:20px;padding:40px 32px;max-width:380px;
-  width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.18);}
-.pending-box .pi{font-size:3rem;margin-bottom:12px;}
-.pending-box h2{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;}
-.pending-box p{font-size:.84rem;color:#7a8aaa;line-height:1.7;}
+  background:linear-gradient(145deg,var(--navy),var(--navy2),#0d1b38);}
+.pending-box{background:#fff;border-radius:22px;padding:44px 36px;max-width:400px;
+  width:100%;text-align:center;box-shadow:var(--shadow2);}
+.pending-box .pi{font-size:3.5rem;margin-bottom:14px;}
+.pending-box h2{font-size:1.15rem;font-weight:800;color:var(--navy);margin-bottom:10px;}
+.pending-box p{font-size:.83rem;color:#7a8aaa;line-height:1.8;}
+.pending-email-box{margin-top:16px;padding:12px 16px;background:var(--offwhite);
+  border-radius:10px;font-size:.82rem;color:#7a8aaa;border:1px solid var(--border2);}
 
 /* ===== APP ===== */
 #appPage{display:none;}
-.topbar{background:var(--blue);color:#fff;height:56px;padding:0 16px;
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  color:#fff;height:60px;padding:0 20px;
   display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 2px 8px rgba(26,115,232,.25);position:sticky;top:0;z-index:100;}
-.topbar-left{display:flex;align-items:center;gap:10px;}
-.topbar h1{font-size:.95rem;font-weight:800;}
-.topbar .user-info{font-size:.75rem;opacity:.85;}
-.btn-logout-top{padding:6px 13px;background:rgba(255,255,255,.15);color:#fff;
-  border:1px solid rgba(255,255,255,.3);border-radius:7px;cursor:pointer;font-size:.8rem;}
-.btn-logout-top:hover{background:rgba(255,255,255,.25);}
+  box-shadow:0 3px 16px rgba(10,31,68,.3);position:sticky;top:0;z-index:100;
+  border-bottom:2px solid rgba(201,168,76,.3);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.topbar-brand{display:flex;align-items:center;gap:8px;}
+.topbar-brand .logo-ic{font-size:1.4rem;}
+.topbar-brand-text h1{font-size:.95rem;font-weight:900;letter-spacing:.5px;color:#fff;}
+.topbar-brand-text .sub{font-size:.65rem;color:var(--gold3);letter-spacing:.3px;}
+.topbar-divider{width:1px;height:28px;background:rgba(255,255,255,.2);margin:0 4px;}
+.topbar-user{font-size:.75rem;color:rgba(255,255,255,.8);}
+.topbar-user strong{color:var(--gold3);}
+.btn-logout-top{padding:7px 15px;
+  background:rgba(201,168,76,.15);color:var(--gold3);
+  border:1px solid rgba(201,168,76,.4);border-radius:8px;
+  cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;}
+.btn-logout-top:hover{background:rgba(201,168,76,.25);color:var(--gold);}
 
 /* NAV TABS */
-.nav-tabs{background:#fff;border-bottom:2px solid var(--border);
-  display:flex;overflow-x:auto;gap:0;position:sticky;top:56px;z-index:99;}
-.nav-tab{padding:13px 18px;font-size:.85rem;font-weight:600;color:#7a8aaa;
+.nav-tabs{background:var(--navy);
+  display:flex;overflow-x:auto;position:sticky;top:60px;z-index:99;
+  border-bottom:2px solid rgba(201,168,76,.25);}
+.nav-tabs::-webkit-scrollbar{height:2px;}
+.nav-tabs::-webkit-scrollbar-thumb{background:var(--gold);}
+.nav-tab{padding:14px 20px;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.55);
   cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
-  transition:all .18s;flex-shrink:0;}
-.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-.nav-tab:hover:not(.active){color:var(--navy);background:#f8faff;}
+  transition:all .18s;flex-shrink:0;letter-spacing:.2px;}
+.nav-tab.active{color:var(--gold3);border-bottom-color:var(--gold);}
+.nav-tab:hover:not(.active){color:rgba(255,255,255,.85);background:rgba(255,255,255,.05);}
 
 /* PAGES */
-.page{display:none;padding:20px 16px 80px;max-width:900px;margin:0 auto;}
+.page{display:none;padding:22px 18px 90px;max-width:960px;margin:0 auto;}
 .page.active{display:block;}
-.page-title{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:18px;
-  display:flex;align-items:center;gap:8px;}
-.card{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px;}
-.card h3{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:14px;
-  padding-bottom:10px;border-bottom:1px solid var(--border);}
+.page-title{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:20px;
+  display:flex;align-items:center;gap:9px;padding-bottom:12px;
+  border-bottom:2px solid var(--border2);}
 
-/* GRID STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:18px;}
-.stat-card{background:#fff;border-radius:12px;padding:16px 12px;text-align:center;
-  box-shadow:var(--shadow);border-top:4px solid var(--border);}
-.stat-card.blue{border-top-color:var(--blue);}
-.stat-card.green{border-top-color:var(--green);}
-.stat-card.red{border-top-color:var(--red);}
-.stat-card.gold{border-top-color:var(--gold);}
-.stat-card .sv{font-size:1.7rem;font-weight:800;color:var(--navy);}
-.stat-card .sl{font-size:.68rem;color:#7a8aaa;font-weight:600;text-transform:uppercase;margin-top:3px;}
+/* CARDS */
+.card{background:var(--white);border-radius:16px;box-shadow:var(--shadow);
+  padding:22px;margin-bottom:18px;border:1px solid rgba(201,168,76,.08);}
+.card h3{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:7px;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:20px;}
+.stat-card{background:var(--white);border-radius:14px;padding:18px 14px;text-align:center;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+  border:1px solid rgba(201,168,76,.1);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.stat-card.navy::before{background:linear-gradient(90deg,var(--navy),var(--navy3));}
+.stat-card.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold3));}
+.stat-card.green::before{background:linear-gradient(90deg,#27ae60,#2ecc71);}
+.stat-card.red::before{background:linear-gradient(90deg,#e74c3c,#e67e22);}
+.stat-card .sv{font-size:1.9rem;font-weight:900;color:var(--navy);line-height:1.1;}
+.stat-card .sl{font-size:.66rem;color:#9aabb8;font-weight:600;text-transform:uppercase;
+  letter-spacing:.5px;margin-top:4px;}
+.stat-card .si{font-size:1.3rem;margin-bottom:6px;opacity:.7;}
 
 /* TABLE */
-.tbl-wrap{overflow-x:auto;}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border);}
 table{width:100%;border-collapse:collapse;min-width:300px;}
-thead tr{background:var(--navy);color:#fff;}
-thead th{padding:9px 11px;font-size:.78rem;font-weight:600;text-align:center;}
-thead th:first-child{border-radius:8px 0 0 0;}
-thead th:last-child{border-radius:0 8px 0 0;}
-tbody tr{border-bottom:1px solid var(--border);}
-tbody tr:hover{background:#f4f8ff;}
-tbody td{padding:8px 11px;font-size:.85rem;text-align:center;}
+thead tr{background:linear-gradient(135deg,var(--navy),var(--navy2));}
+thead th{padding:10px 12px;font-size:.76rem;font-weight:600;text-align:center;
+  color:rgba(255,255,255,.9);letter-spacing:.3px;}
+thead th:first-child{border-radius:9px 0 0 0;}
+thead th:last-child{border-radius:0 9px 0 0;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
+tbody tr:hover{background:#fdf9f0;}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:10px 12px;font-size:.84rem;text-align:center;}
 tbody td.tl{text-align:left;}
 
 /* ABSENSI BUTTONS */
-.abs-btn-group{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;}
-.abs-btn{padding:5px 9px;border:1.5px solid var(--border);border-radius:6px;
-  font-size:.72rem;font-weight:700;cursor:pointer;background:#f8f8f8;color:#555;transition:all .15s;}
+.abs-btn-group{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.abs-btn{padding:5px 11px;border:1.5px solid var(--border);border-radius:7px;
+  font-size:.72rem;font-weight:700;cursor:pointer;background:#f8f8f8;
+  color:#888;transition:all .18s;opacity:.5;}
+.abs-btn.active-btn{opacity:1;transform:scale(1.05);}
 .abs-btn.hadir{background:#e6f9ee;border-color:#27ae60;color:#27ae60;}
-.abs-btn.izin{background:#fff8e6;border-color:#f39c12;color:#f39c12;}
-.abs-btn.sakit{background:#fff0f0;border-color:#e67e22;color:#e67e22;}
-.abs-btn.alfa{background:#fce;border-color:#e74c3c;color:#e74c3c;}
+.abs-btn.izin{background:#fff8e6;border-color:#f39c12;color:#d68910;}
+.abs-btn.sakit{background:#fff3e6;border-color:#e67e22;color:#ca6f1e;}
+.abs-btn.alfa{background:#fff0f0;border-color:#e74c3c;color:#cb4335;}
 
-/* NILAI */
-.nilai-input{width:60px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;
-  font-size:.85rem;text-align:center;outline:none;}
-.nilai-input:focus{border-color:var(--blue);}
+/* NILAI INPUT */
+.nilai-input{width:65px;padding:6px 7px;border:1.5px solid var(--border);border-radius:7px;
+  font-size:.85rem;text-align:center;outline:none;transition:border .2s;}
+.nilai-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.12);}
 
 /* BADGE */
-.badge{padding:2px 9px;border-radius:99px;font-size:.72rem;font-weight:700;}
+.badge{padding:3px 10px;border-radius:99px;font-size:.71rem;font-weight:700;display:inline-block;}
+.badge-navy{background:rgba(10,31,68,.08);color:var(--navy);border:1px solid rgba(10,31,68,.15);}
+.badge-gold{background:rgba(201,168,76,.12);color:var(--gold2);border:1px solid rgba(201,168,76,.3);}
 .badge-green{background:#e6f9ee;color:#1a7a3c;border:1px solid #a3d9b5;}
 .badge-red{background:#fff0f0;color:#c0392b;border:1px solid #f5b8b8;}
-.badge-gold{background:#fff8e6;color:#b8922e;border:1px solid #f0d090;}
-.badge-blue{background:#e8f0fe;color:#1557b0;border:1px solid #aac4f5;}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,31,68,.45);
-  display:none;align-items:center;justify-content:center;z-index:999;padding:16px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(10,31,68,.55);
+  display:none;align-items:center;justify-content:center;z-index:999;padding:16px;
+  backdrop-filter:blur(3px);}
 .modal-overlay.open{display:flex;}
-.modal{background:#fff;border-radius:16px;padding:28px 24px;width:100%;max-width:440px;
-  max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2);}
-.modal h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:18px;}
-.modal-btns{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+.modal{background:#fff;border-radius:18px;padding:30px 26px;width:100%;max-width:450px;
+  max-height:90vh;overflow-y:auto;box-shadow:var(--shadow2);
+  border:1px solid rgba(201,168,76,.12);}
+.modal h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:20px;
+  padding-bottom:12px;border-bottom:2px solid var(--border2);}
+.modal-btns{display:flex;gap:10px;margin-top:22px;justify-content:flex-end;}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--navy);color:#fff;padding:11px 20px;border-radius:10px;
-  font-size:.87rem;opacity:0;transition:all .3s;z-index:9999;
-  border-left:4px solid var(--blue);white-space:nowrap;}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:12px 22px;border-radius:12px;
+  font-size:.86rem;opacity:0;transition:all .3s;z-index:9999;
+  border-left:4px solid var(--gold);white-space:nowrap;
+  box-shadow:0 6px 24px rgba(10,31,68,.3);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* EMPTY STATE */
-.empty{text-align:center;padding:36px 16px;color:#aab;}
-.empty .ei{font-size:2.4rem;margin-bottom:8px;}
+/* EMPTY */
+.empty{text-align:center;padding:40px 16px;color:#b0bac8;}
+.empty .ei{font-size:2.8rem;margin-bottom:10px;opacity:.6;}
 .empty p{font-size:.84rem;}
 
-/* SEARCH + TOOLBAR */
-.toolbar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
-.search-input{flex:1;min-width:180px;padding:9px 13px;border:1.5px solid var(--border);
-  border-radius:9px;font-size:.88rem;outline:none;}
-.search-input:focus{border-color:var(--blue);}
-
-/* SELECT KELAS */
-.kelas-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
-  font-size:.88rem;outline:none;background:#fff;}
-.kelas-select:focus{border-color:var(--blue);}
-
-/* TANGGAL */
-.tgl-input{padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
-  font-size:.88rem;outline:none;background:#fff;}
-
-/* LAPORAN */
-.lap-kelas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
-.lap-kelas-card{background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:18px;
-  cursor:pointer;transition:transform .15s,box-shadow .15s;border-top:4px solid var(--blue);}
-.lap-kelas-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,115,232,.15);}
-.lap-kelas-card h4{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.lap-kelas-card p{font-size:.76rem;color:#7a8aaa;}
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.kelas-select,.tgl-input,.search-input{
+  padding:9px 13px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:.86rem;outline:none;background:#fff;transition:border .2s;}
+.kelas-select:focus,.tgl-input:focus,.search-input:focus{
+  border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
+.search-input{flex:1;min-width:180px;}
 
 /* PROGRESS BAR */
-.prog{background:#eee;border-radius:99px;height:6px;margin-top:8px;}
-.prog-fill{background:var(--blue);border-radius:99px;height:6px;transition:width .3s;}
+.prog{background:#e8e8e8;border-radius:99px;height:7px;}
+.prog-fill{background:linear-gradient(90deg,var(--navy),var(--gold));
+  border-radius:99px;height:7px;transition:width .4s;}
 
-/* ADMIN PAGE */
-#adminPage{display:none;min-height:100vh;background:var(--bg);}
-.admin-topbar{background:var(--navy);color:#fff;padding:14px 20px;
-  display:flex;align-items:center;justify-content:space-between;}
-.admin-topbar h1{font-size:1rem;font-weight:800;}
+/* KELAS CARD */
+.kelas-card-header{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;margin-bottom:14px;padding-bottom:12px;
+  border-bottom:1px solid var(--border2);}
+.kelas-card-title{font-size:.98rem;font-weight:800;color:var(--navy);}
+.kelas-card-sub{font-size:.73rem;color:#9aabb8;margin-top:2px;}
 
 @media(max-width:600px){
-  .auth-box{padding:28px 18px;}
+  .auth-box{padding:30px 20px;}
   .page{padding:14px 12px 80px;}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .nav-tab{padding:11px 13px;font-size:.8rem;}
+  .nav-tab{padding:12px 14px;font-size:.78rem;}
+  .topbar{padding:0 14px;}
 }
 </style>
 </head>
@@ -204,9 +241,10 @@ tbody td.tl{text-align:left;}
 <div class="auth-page active" id="registerPage">
   <div class="auth-box">
     <div class="auth-logo">
-      <div class="ic">📚</div>
+      <span class="ic">📚</span>
       <h1>MISSKA</h1>
-      <p>Daftar akun guru baru</p>
+      <p class="tagline">Manajemen Kelas &amp; Nilai Guru</p>
+      <div class="gold-bar"></div>
     </div>
     <div class="auth-err" id="regErr"></div>
     <div class="fg"><label>Nama Lengkap</label>
@@ -219,7 +257,7 @@ tbody td.tl{text-align:left;}
       <input type="text" id="regKode" placeholder="Masukkan kode dari master"/>
       <div style="font-size:.72rem;color:#aab;margin-top:4px;">Hubungi admin untuk mendapatkan kode aktivasi.</div>
     </div>
-    <button class="btn btn-blue btn-full" onclick="doRegister()">Daftar Sekarang</button>
+    <button class="btn btn-navy btn-full" onclick="doRegister()">🚀 Daftar Sekarang</button>
     <div class="auth-switch">Sudah punya akun? <a onclick="showPage('login')">Masuk di sini</a></div>
   </div>
 </div>
@@ -228,9 +266,10 @@ tbody td.tl{text-align:left;}
 <div class="auth-page" id="loginPage">
   <div class="auth-box">
     <div class="auth-logo">
-      <div class="ic">📚</div>
+      <span class="ic">📚</span>
       <h1>MISSKA</h1>
-      <p>Masuk ke akun Anda</p>
+      <p class="tagline">Selamat datang kembali</p>
+      <div class="gold-bar"></div>
     </div>
     <div class="auth-err" id="loginErr"></div>
     <div class="fg"><label>Email</label>
@@ -239,7 +278,7 @@ tbody td.tl{text-align:left;}
     <div class="fg"><label>Password</label>
       <input type="password" id="loginPass" placeholder="Password"
         onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="btn btn-blue btn-full" onclick="doLogin()">Masuk</button>
+    <button class="btn btn-navy btn-full" onclick="doLogin()">🔐 Masuk</button>
     <div class="auth-switch">Belum punya akun? <a onclick="showPage('register')">Daftar di sini</a></div>
   </div>
 </div>
@@ -251,10 +290,10 @@ tbody td.tl{text-align:left;}
     <h2>Menunggu Persetujuan</h2>
     <p>Akun Anda sedang menunggu persetujuan dari master admin.<br><br>
     Silakan hubungi admin dan berikan email Anda untuk proses aktivasi.</p>
-    <div style="margin-top:20px;padding:12px;background:#f0f4fb;border-radius:9px;font-size:.8rem;color:#7a8aaa;">
+    <div class="pending-email-box">
       Email: <strong id="pendingEmail">—</strong>
     </div>
-    <button class="btn btn-gray btn-full" style="margin-top:14px;" onclick="doLogout()">Keluar</button>
+    <button class="btn btn-ghost btn-full" style="margin-top:14px;" onclick="doLogout()">🚪 Keluar</button>
   </div>
 </div>
 
@@ -262,11 +301,15 @@ tbody td.tl{text-align:left;}
 <div id="appPage">
   <div class="topbar">
     <div class="topbar-left">
-      <span style="font-size:1.3rem;">📚</span>
-      <div>
-        <h1>MISSKA</h1>
-        <div class="user-info" id="topUserInfo">—</div>
+      <div class="topbar-brand">
+        <span class="logo-ic">📚</span>
+        <div class="topbar-brand-text">
+          <h1>MISSKA</h1>
+          <div class="sub">Aplikasi Guru</div>
+        </div>
       </div>
+      <div class="topbar-divider"></div>
+      <div class="topbar-user" id="topUserInfo">—</div>
     </div>
     <button class="btn-logout-top" onclick="doLogout()">🚪 Keluar</button>
   </div>
@@ -283,10 +326,10 @@ tbody td.tl{text-align:left;}
   <div class="page active" id="page-dashboard">
     <div class="page-title">🏠 Dashboard</div>
     <div class="stats-grid">
-      <div class="stat-card blue"><div class="sv" id="ds-kelas">0</div><div class="sl">Kelas</div></div>
-      <div class="stat-card green"><div class="sv" id="ds-siswa">0</div><div class="sl">Siswa</div></div>
-      <div class="stat-card gold"><div class="sv" id="ds-absen">0</div><div class="sl">Sesi Absensi</div></div>
-      <div class="stat-card red"><div class="sv" id="ds-nilai">0</div><div class="sl">Kolom Nilai</div></div>
+      <div class="stat-card navy"><div class="si">🏫</div><div class="sv" id="ds-kelas">0</div><div class="sl">Kelas</div></div>
+      <div class="stat-card gold"><div class="si">👥</div><div class="sv" id="ds-siswa">0</div><div class="sl">Siswa</div></div>
+      <div class="stat-card green"><div class="si">📅</div><div class="sv" id="ds-absen">0</div><div class="sl">Sesi Absensi</div></div>
+      <div class="stat-card red"><div class="si">📝</div><div class="sv" id="ds-nilai">0</div><div class="sl">Kolom Nilai</div></div>
     </div>
     <div class="card">
       <h3>📋 Rekap Kelas</h3>
@@ -303,7 +346,7 @@ tbody td.tl{text-align:left;}
   <div class="page" id="page-kelas">
     <div class="page-title">🏫 Kelas &amp; Siswa</div>
     <div class="toolbar">
-      <button class="btn btn-blue btn-sm" onclick="openModalKelas()">➕ Tambah Kelas</button>
+      <button class="btn btn-navy btn-sm" onclick="openModalKelas()">➕ Tambah Kelas</button>
     </div>
     <div id="kelasContainer"></div>
   </div>
@@ -314,7 +357,7 @@ tbody td.tl{text-align:left;}
     <div class="toolbar">
       <select class="kelas-select" id="absKelasSelect" onchange="loadAbsensi()"></select>
       <input type="date" class="tgl-input" id="absTanggal" onchange="loadAbsensi()"/>
-      <button class="btn btn-blue btn-sm" onclick="simpanAbsensi()">💾 Simpan</button>
+      <button class="btn btn-gold btn-sm" onclick="simpanAbsensi()">💾 Simpan</button>
     </div>
     <div class="card" id="absCard">
       <div class="empty"><div class="ei">📅</div><p>Pilih kelas dan tanggal.</p></div>
@@ -326,7 +369,7 @@ tbody td.tl{text-align:left;}
     <div class="page-title">📝 Nilai</div>
     <div class="toolbar">
       <select class="kelas-select" id="nilaiKelasSelect" onchange="loadNilai()"></select>
-      <button class="btn btn-blue btn-sm" onclick="openModalKolomNilai()">➕ Tambah Kolom Nilai</button>
+      <button class="btn btn-navy btn-sm" onclick="openModalKolomNilai()">➕ Tambah Kolom Nilai</button>
     </div>
     <div id="nilaiContainer">
       <div class="empty"><div class="ei">📝</div><p>Pilih kelas untuk melihat nilai.</p></div>
@@ -354,8 +397,8 @@ tbody td.tl{text-align:left;}
     <div class="fg"><label>Nama Kelas</label><input type="text" id="mKNama" placeholder="Contoh: X IPA 1"/></div>
     <div class="fg"><label>Wali Kelas (opsional)</label><input type="text" id="mKWali" placeholder="Nama wali kelas"/></div>
     <div class="modal-btns">
-      <button class="btn btn-gray btn-sm" onclick="closeModal('modalKelas')">Batal</button>
-      <button class="btn btn-blue btn-sm" onclick="saveKelas()">Simpan</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modalKelas')">Batal</button>
+      <button class="btn btn-navy btn-sm" onclick="saveKelas()">💾 Simpan</button>
     </div>
   </div>
 </div>
@@ -369,8 +412,8 @@ tbody td.tl{text-align:left;}
       <select id="mSJK"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>
     </div>
     <div class="modal-btns">
-      <button class="btn btn-gray btn-sm" onclick="closeModal('modalSiswa')">Batal</button>
-      <button class="btn btn-blue btn-sm" onclick="saveSiswa()">Simpan</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modalSiswa')">Batal</button>
+      <button class="btn btn-navy btn-sm" onclick="saveSiswa()">💾 Simpan</button>
     </div>
   </div>
 </div>
@@ -394,8 +437,8 @@ tbody td.tl{text-align:left;}
       </div>
     </div>
     <div class="modal-btns">
-      <button class="btn btn-gray btn-sm" onclick="closeModal('modalImport')">Batal</button>
-      <button class="btn btn-blue btn-sm" id="btnImport" onclick="konfirmasiImport()" style="display:none;">Import</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modalImport')">Batal</button>
+      <button class="btn btn-navy btn-sm" id="btnImport" onclick="konfirmasiImport()" style="display:none;">📥 Import</button>
     </div>
   </div>
 </div>
@@ -411,8 +454,8 @@ tbody td.tl{text-align:left;}
       <textarea id="pasteNama" rows="7" placeholder="Ahmad&#10;Budi&#10;Siti&#10;..."></textarea>
     </div>
     <div class="modal-btns">
-      <button class="btn btn-gray btn-sm" onclick="closeModal('modalPaste')">Batal</button>
-      <button class="btn btn-blue btn-sm" onclick="konfirmasiPaste()">Import</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modalPaste')">Batal</button>
+      <button class="btn btn-navy btn-sm" onclick="konfirmasiPaste()">📥 Import</button>
     </div>
   </div>
 </div>
@@ -426,8 +469,8 @@ tbody td.tl{text-align:left;}
     <div class="fg"><label>Bobot (%)</label>
       <input type="number" id="mKolomBobot" placeholder="Contoh: 20" min="0" max="100"/></div>
     <div class="modal-btns">
-      <button class="btn btn-gray btn-sm" onclick="closeModal('modalKolomNilai')">Batal</button>
-      <button class="btn btn-blue btn-sm" onclick="saveKolomNilai()">Simpan</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modalKolomNilai')">Batal</button>
+      <button class="btn btn-navy btn-sm" onclick="saveKolomNilai()">💾 Simpan</button>
     </div>
   </div>
 </div>
@@ -566,7 +609,7 @@ function showApp(){
   document.querySelectorAll('.auth-page').forEach(el=>{el.classList.remove('active');el.style.display='none';});
   document.getElementById('pendingPage').style.display='none';
   document.getElementById('appPage').style.display='block';
-  document.getElementById('topUserInfo').textContent = CU.nama + ' · ' + CU.email;
+  document.getElementById('topUserInfo').innerHTML = '<strong>'+CU.nama+'</strong> · '+CU.email;
   populateKelasSelects();
   renderDashboard();
   // set tanggal hari ini
@@ -652,10 +695,10 @@ function renderKelas(){
           ${k.wali?`<div style="font-size:.75rem;color:#7a8aaa;">Wali: ${k.wali}</div>`:''}
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn btn-gray btn-sm" onclick="openModalSiswa('${k.id}')">➕ Siswa</button>
-          <button class="btn btn-gray btn-sm" onclick="openModalPaste('${k.id}')">📋 Paste Nama</button>
-          <button class="btn btn-gray btn-sm" onclick="openImportExcel('${k.id}')">📊 Import Excel</button>
-          <button class="btn btn-gray btn-sm" onclick="editKelas('${k.id}')">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm" onclick="openModalSiswa('${k.id}')">➕ Siswa</button>
+          <button class="btn btn-ghost btn-sm" onclick="openModalPaste('${k.id}')">📋 Paste Nama</button>
+          <button class="btn btn-ghost btn-sm" onclick="openImportExcel('${k.id}')">📊 Import Excel</button>
+          <button class="btn btn-ghost btn-sm" onclick="editKelas('${k.id}')">✏️ Edit</button>
           <button class="btn btn-red btn-sm" onclick="hapusKelas('${k.id}')">🗑️</button>
         </div>
       </div>
@@ -669,7 +712,7 @@ function renderKelas(){
               <td class="tl">${s.nama}</td>
               <td>${s.jk==='L'?'L':'P'}</td>
               <td>
-                <button class="btn btn-gray btn-sm" onclick="editSiswa('${s.id}')">✏️</button>
+                <button class="btn btn-ghost btn-sm" onclick="editSiswa('${s.id}')">✏️</button>
                 <button class="btn btn-red btn-sm" onclick="hapusSiswa('${s.id}')">🗑️</button>
               </td>
             </tr>`).join('')}
